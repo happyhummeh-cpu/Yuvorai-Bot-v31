@@ -14,19 +14,25 @@ const { tipShow }                                        = require('./handlers/t
 const { statusShow }                                     = require('./handlers/status.handler');
 const { helpShow }                                       = require('./handlers/help.handler');
 const { salaryStart, handleSalaryText, coverStart, handleCoverText, skillGapStart, handleSkillGapText } = require('./handlers/misc.handler');
+
+// Roast & Resume handlers (new)
 const {
-
   linkedinRoastStart,
-
-  handleLinkedInPhoto
-
+  handleLinkedinPhoto,
+  shareLinkedinRoast,
+  anotherLinkedinRoast
 } = require('./modules/linkedin/linkedin.handler');
+
+const {
+  resumeRoastStart,
+  handleResumeFile,
+  shareResumeRoast,
+  handleResumeText
+} = require('./modules/resume/resume.handler');
 
 // Modules
 const { cookedStart, futureSimulator }   = require('./modules/cooked/cooked.handler');
-const { resumeStart, handleResumeText }  = require('./modules/resume/resume.handler');
 const { interviewStart, startInterviewType, handleInterviewAnswer, nextQuestion } = require('./modules/interview/interview.handler');
-const { linkedinStart, handleLinkedinText } = require('./modules/linkedin/linkedin.handler');
 const { oppsShow }                       = require('./modules/opportunities/opportunities.handler');
 const { premiumShow, buyPlan, handlePaymentScreenshot, approvePayment, rejectPayment } = require('./modules/premium/premium.handler');
 const { streakShow, profileShow, editProfile, handleEditChoice } = require('./modules/streak/streak.handler');
@@ -53,7 +59,7 @@ bot.use(async (ctx, next) => {
   return next();
 });
 
-// ── Commands ──────────────────────────────────────────────────────────────────
+// ── Commands ───────────────────────────────────────────────────────────[...]
 bot.start(async (ctx) => {
   const payload = ctx.startPayload;
   if (payload?.startsWith('ref_')) {
@@ -67,8 +73,8 @@ bot.command('cooked',    ctx => cookedStart(ctx, ctx.user));
 bot.command('feed',      ctx => oppsShow(ctx, ctx.user));
 bot.command('ask',       ctx => askPrompt(ctx, ctx.user));
 bot.command('interview', ctx => interviewStart(ctx, ctx.user));
-bot.command('resume',    ctx => resumeStart(ctx, ctx.user));
-bot.command('linkedin',  ctx => linkedinStart(ctx, ctx.user));
+bot.command('resume',    ctx => resumeRoastStart(ctx, ctx.user));
+bot.command('linkedin',  ctx => linkedinRoastStart(ctx, ctx.user));
 bot.command('roadmap',   ctx => roadmapShow(ctx, ctx.user));
 bot.command('tip',       ctx => tipShow(ctx, ctx.user));
 bot.command('dsa',       ctx => dsaShow(ctx, ctx.user));
@@ -85,7 +91,7 @@ bot.command('opportunities', ctx => oppsShow(ctx, ctx.user));
 bot.command('dashboard',     ctx => showDashboard(ctx, ctx.user));
 bot.command('website',       ctx => sendWebsiteUpsell(ctx.user, bot));
 
-// ── Admin Commands ────────────────────────────────────────────────────────────
+// ── Admin Commands ─────────────────────────────────────────────────────────[...]
 bot.command('stats',   ctx => adminStats(ctx));
 bot.command('pending', ctx => pendingPayments(ctx));
 bot.hears(/^\/approve_(.+)$/, ctx => { if (isAdmin(ctx)) approvePayment(ctx, ctx.match[1]); });
@@ -93,7 +99,7 @@ bot.hears(/^\/reject_(.+)$/,  ctx => { if (isAdmin(ctx)) rejectPayment(ctx, ctx.
 bot.hears(/^\/broadcast (.+)$/s, ctx => { if (isAdmin(ctx)) broadcastMsg(ctx, ctx.match[1]); });
 bot.hears(/^\/addopp (.+)$/s,   ctx => { if (isAdmin(ctx)) addOpp(ctx, ctx.match[1]); });
 
-// ── Callback Actions ──────────────────────────────────────────────────────────
+// ── Callback Actions ────────────────────────────────────────────────────────
 bot.action('dash_home',      ctx => { ctx.answerCbQuery(); showDashboard(ctx, ctx.user); });
 bot.action('cooked_start',   ctx => { ctx.answerCbQuery('💀 Generating...'); cookedStart(ctx, ctx.user); });
 bot.action('future_sim',     ctx => { ctx.answerCbQuery('🔮 Simulating...'); futureSimulator(ctx, ctx.user); });
@@ -101,7 +107,7 @@ bot.action('opps_show',      ctx => { ctx.answerCbQuery('📡 Loading...'); opps
 bot.action('ask_prompt',     ctx => { ctx.answerCbQuery(); askPrompt(ctx, ctx.user); });
 bot.action('interview_start',ctx => { ctx.answerCbQuery(); interviewStart(ctx, ctx.user); });
 bot.action('interview_next', ctx => { ctx.answerCbQuery(); nextQuestion(ctx, ctx.user); });
-bot.action('resume_start',   ctx => { ctx.answerCbQuery(); resumeStart(ctx, ctx.user); });
+bot.action('resume_start',   ctx => { ctx.answerCbQuery(); resumeRoastStart(ctx, ctx.user); });
 bot.action('roadmap_show',   ctx => { ctx.answerCbQuery('🗺️ Loading...'); roadmapShow(ctx, ctx.user); });
 bot.action('premium_show',   ctx => { ctx.answerCbQuery(); premiumShow(ctx, ctx.user); });
 bot.action('refer_show',     ctx => { ctx.answerCbQuery(); referShow(ctx, ctx.user); });
@@ -114,6 +120,13 @@ bot.action('cover_start',    ctx => { ctx.answerCbQuery(); coverStart(ctx, ctx.u
 bot.action('skill_gap_start',ctx => { ctx.answerCbQuery(); skillGapStart(ctx, ctx.user); });
 bot.action('upsell_dismiss', ctx => { ctx.answerCbQuery('Ok bhai! 👍'); });
 bot.action('copy_ref',       ctx => { ctx.answerCbQuery('Code copy karo upar se! 📋'); });
+
+// Roast specific callbacks
+bot.action('linkedin_roast_start', ctx => { ctx.answerCbQuery(); linkedinRoastStart(ctx, ctx.user); });
+bot.action('linkedin_roast_share', ctx => { ctx.answerCbQuery(); shareLinkedinRoast(ctx, ctx.user); });
+bot.action('linkedin_roast_another', ctx => { ctx.answerCbQuery(); anotherLinkedinRoast(ctx, ctx.user); });
+
+bot.action('resume_roast_share', ctx => { ctx.answerCbQuery(); shareResumeRoast(ctx, ctx.user); });
 
 // Opportunity type filters
 bot.action(/^opps_type_(.+)$/, ctx => { ctx.answerCbQuery(); oppsShow(ctx, ctx.user, ctx.match[1]); });
@@ -153,18 +166,14 @@ bot.action('edit_year', ctx => {
   ctx.answerCbQuery();
   return ctx.editMessageText('📅 *Year select karo:*', {
     parse_mode: 'Markdown',
-    ...Markup.inlineKeyboard(
-      YEARS.map(y => Markup.button.callback(y, `set_year_${y}`)), { columns: 3 }
-    ),
+    ...Markup.inlineKeyboard(YEARS.map(y => Markup.button.callback(y, `set_year_${y}`)), { columns: 3 }),
   });
 });
 bot.action('edit_goal', ctx => {
   ctx.answerCbQuery();
   return ctx.editMessageText('🎯 *Goal select karo:*', {
     parse_mode: 'Markdown',
-    ...Markup.inlineKeyboard(
-      GOALS.map(g => Markup.button.callback(g, `set_goal_${g.replace(/ /g, '_')}`)), { columns: 2 }
-    ),
+    ...Markup.inlineKeyboard(GOALS.map(g => Markup.button.callback(g, `set_goal_${g.replace(/ /g, '_')}`)), { columns: 2 }),
   });
 });
 bot.action('edit_skill', ctx => {
@@ -224,7 +233,7 @@ bot.on('text', async (ctx) => {
   const routes = {
     ask_ai:         () => handleAskText(ctx, ctx.user, text),
     resume_roast:   () => handleResumeText(ctx, ctx.user, text),
-    linkedin_roast: () => handleLinkedinText(ctx, ctx.user, text),
+    linkedin_roast: () => handleLinkedinText ? handleLinkedinText(ctx, ctx.user, text) : undefined,
     interview_ans:  () => handleInterviewAnswer(ctx, ctx.user, text),
     salary:         () => handleSalaryText(ctx, ctx.user, text),
     cover_letter:   () => handleCoverText(ctx, ctx.user, text),
@@ -234,31 +243,39 @@ bot.on('text', async (ctx) => {
   if (routes[waiting]) routes[waiting]();
 });
 
-// ── Photo Handler (Payment screenshots) ──────────────────────────────────────
-
+// ── Photo Handler (Payment screenshots or LinkedIn photos) ───────────────────
 bot.on('photo', async (ctx) => {
-
-  await paymentScreenshot(ctx, ctx.user);
-
+  try {
+    const waiting = await cache.get(`waiting:${ctx.user.telegramId}`);
+    if (waiting === 'linkedin_roast_photo') {
+      return handleLinkedinPhoto(ctx, ctx.user);
+    }
+    // Fallback to payment screenshot handler
+    if (typeof handlePaymentScreenshot === 'function') return handlePaymentScreenshot(ctx, ctx.user);
+  } catch (err) {
+    logger.error('Photo handler error:', err);
+  }
 });
 
+// ── Document Handler (Resume files or payment docs) ───────────────────────────
+bot.on('document', async (ctx) => {
+  try {
+    const waiting = await cache.get(`waiting:${ctx.user.telegramId}`);
+    if (waiting === 'resume_roast') {
+      return handleResumeFile(ctx, ctx.user);
+    }
+    if (typeof handlePaymentScreenshot === 'function') return handlePaymentScreenshot(ctx, ctx.user);
+  } catch (err) {
+    logger.error('Document handler error:', err);
+  }
+});
 
-
-// ── Launch Bot ───────────────────────────────────────────────────────────────
+// ── Launch Bot ──────────────────────────────────────────────────────────[...]
 
 bot.launch();
 
-
-
-logger.info('������ YuvorAI bot launched');
-
-
+logger.info('🎯 YuvorAI bot launched');
 
 // Graceful stop
-
 process.once('SIGINT',  () => bot.stop('SIGINT'));
-
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
-
-
-
