@@ -1,0 +1,217 @@
+// ── YuvorAI — Entry Point ─────────────────────────────────────────────────────
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const express = require('express');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const path    = require('path');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const { connectDB }    = require('./config/database');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const { connectRedis } = require('./config/redis');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const logger  = require('./config/logger');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const env     = require('./config/env');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const { bot, setWebhook } = require('./bot');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const apiRoutes = require('./api/api.routes');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const { startOppsJob }   = require('./jobs/opportunities.job');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const { startDigestJob } = require('./jobs/digest.job');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const { startStreakJob }  = require('./jobs/streak.job');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+const app = express();
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+// ── CORS (dashboard ke liye) ──────────────────────────────────────────────────
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+app.use((req, res, next) => {
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  res.header('Access-Control-Allow-Origin', '*');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  res.header('Access-Control-Allow-Headers', 'Content-Type, x-admin-token');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  next();
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+});
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+app.use(express.json());
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+// ── Pass bot to API routes ────────────────────────────────────────────────────
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+app.locals.bot = bot;
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+// ── API Routes ────────────────────────────────────────────────────────────────
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+app.use('/api', apiRoutes);
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+// ── Dashboard static serve (optional — agar same server pe hai) ──────────────
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+app.use('/dashboard', express.static(path.join(__dirname, '../dashboard')));
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+// ── Health ────────────────────────────────────────────────────────────────────
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/health', (_, res) => res.json({
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  status: 'ok',
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  uptime: Math.floor(process.uptime()),
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  memory: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB',
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+}));
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+async function main() {
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  logger.info('🚀 YuvorAI starting...');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  await connectDB();
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  await connectRedis();
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  if (env.telegram.webhookUrl) {
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+    app.use(bot.webhookCallback('/telegram-webhook'));
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+    await setWebhook();
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+    logger.info('✅ Webhook mode');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+} else {
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+    bot.launch();
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+    logger.info('✅ Polling mode');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  }
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  app.listen(env.app.port, '0.0.0.0', () => logger.info(`Server: http://localhost:${env.app.port}`));
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  startOppsJob();
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  startDigestJob(bot);
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  startStreakJob(bot);
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  logger.info('✅ YuvorAI is LIVE! 🔥');
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  process.once('SIGINT',  () => { bot.stop('SIGINT');  process.exit(0); });
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+  process.once('SIGTERM', () => { bot.stop('SIGTERM'); process.exit(0); });
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+}
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+main().catch(err => { logger.error('Startup failed:', err); process.exit(1); });
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));
+aapp.get('/dashboard/', (req, res) => res.sendFile(path.join(__dirname, '../dashboard/yuvorai-dashboard.html')));

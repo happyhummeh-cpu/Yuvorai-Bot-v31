@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>YUVORAI — Admin Intelligence Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --bg:#07070f;--bg2:#0d0d1c;--bg3:#111125;--card:#13132a;
+  --b1:rgba(120,80,255,0.1);--b2:rgba(120,80,255,0.2);--b3:rgba(120,80,255,0.35);
+  --pu:#7c50ff;--vi:#5b21b6;--pk:#e879f9;--cy:#06d6a0;
+  --gr:#10b981;--am:#fbbf24;--rd:#f43f5e;--bl:#38bdf8;
+  --t1:#ede9ff;--t2:#8878bb;--t3:#2e2a55;
+  --d:'Syne',sans-serif;--b:'Figtree',sans-serif;--mono:'DM Mono',monospace;
+  --r:13px;--rl:18px;--sidebar:235px;
+  --gp:0 0 40px rgba(124,80,255,0.2),0 0 80px rgba(124,80,255,0.08);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t1);font-family:var(--b);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+button,input,select{font-family:var(--b);cursor:pointer;}
+a{color:inherit;text-decoration:none;}
+
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 50% 60% at 10% 20%,rgba(124,80,255,0.07) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 40% at 90% 80%,rgba(232,121,249,0.05) 0%,transparent 70%),
+    radial-gradient(ellipse 30% 30% at 50% 50%,rgba(6,214,160,0.03) 0%,transparent 70%);
+}
+
+/* GRID PATTERN */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(124,80,255,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,80,255,0.04) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(0,0,0,0.5),transparent);
+}
+
+/* LOGIN */
+#login-page{
+  position:fixed;inset:0;z-index:999;
+  display:flex;align-items:center;justify-content:center;padding:1rem;
+  background:var(--bg);
+}
+.login-box{width:100%;max-width:400px;position:relative;z-index:2;animation:fadeUp .6s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.lb-logo{text-align:center;margin-bottom:2rem;}
+.lb-mark{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:58px;height:58px;border-radius:15px;
+  background:linear-gradient(135deg,var(--pu),var(--pk));
+  font-family:var(--d);font-weight:800;font-size:20px;color:#fff;
+  margin-bottom:14px;box-shadow:var(--gp);
+}
+.lb-logo h1{font-family:var(--d);font-size:28px;font-weight:800;background:linear-gradient(90deg,var(--pu),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px;}
+.lb-logo .sub{font-size:11px;color:var(--t3);font-family:var(--mono);letter-spacing:2px;margin-top:4px;}
+
+.lb-card{
+  background:var(--card);border:1px solid var(--b2);border-radius:var(--rl);
+  padding:2rem;position:relative;overflow:hidden;
+  box-shadow:0 30px 70px rgba(0,0,0,0.6);
+}
+.lb-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--pu),var(--pk),transparent);}
+.field-label{display:block;font-size:10.5px;color:var(--t2);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;font-family:var(--mono);}
+.field-input{
+  width:100%;background:var(--bg2);border:1px solid var(--b2);border-radius:10px;
+  padding:11px 14px;color:var(--t1);font-size:13.5px;outline:none;transition:all .2s;margin-bottom:1rem;
+}
+.field-input:focus{border-color:var(--pu);box-shadow:0 0 15px rgba(124,80,255,0.2);}
+.login-btn{
+  width:100%;padding:12px;border-radius:11px;border:none;
+  background:linear-gradient(135deg,var(--pu),var(--pk));
+  color:#fff;font-size:14px;font-weight:600;font-family:var(--d);
+  letter-spacing:0.5px;transition:all .2s;margin-top:6px;
+  box-shadow:0 8px 30px rgba(124,80,255,0.35);
+}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(124,80,255,0.5);}
+.login-hint{font-size:11px;color:var(--t3);text-align:center;margin-top:14px;font-family:var(--mono);}
+.login-error{color:var(--rd);font-size:12px;text-align:center;margin-top:10px;display:none;}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);
+  background:var(--bg2);border-right:1px solid var(--b1);
+  display:flex;flex-direction:column;z-index:300;
+}
+.sb-logo{
+  height:64px;display:flex;align-items:center;gap:11px;
+  padding:0 1.2rem;border-bottom:1px solid var(--b1);flex-shrink:0;
+}
+.logo-mark{
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--pu),var(--pk));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--d);font-weight:800;font-size:12px;color:#fff;
+  box-shadow:0 0 20px rgba(124,80,255,0.4);
+}
+.logo-text{font-family:var(--d);font-weight:800;font-size:14.5px;background:linear-gradient(90deg,var(--pu),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.logo-sub2{font-size:9px;color:var(--t3);font-family:var(--mono);letter-spacing:1px;}
+
+.nav-scroll{flex:1;overflow-y:auto;padding:1rem 0.7rem;}
+.nav-scroll::-webkit-scrollbar{width:3px;}
+.nav-scroll::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px;}
+.nav-sec{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t3);padding:0 0.5rem;margin:1.1rem 0 5px;font-family:var(--mono);}
+.nav-sec:first-child{margin-top:0;}
+.ni{
+  display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;
+  font-size:13px;color:var(--t2);transition:all .18s;margin-bottom:2px;
+  position:relative;cursor:pointer;border:1px solid transparent;
+}
+.ni:hover{background:rgba(124,80,255,0.07);color:var(--t1);}
+.ni.active{
+  background:linear-gradient(90deg,rgba(124,80,255,0.17),rgba(232,121,249,0.07));
+  color:var(--pu);border-color:rgba(124,80,255,0.22);
+}
+.ni.active::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:55%;border-radius:0 2px 2px 0;
+  background:linear-gradient(180deg,var(--pu),var(--pk));
+}
+.ni i{width:16px;text-align:center;font-size:13px;flex-shrink:0;}
+.nbadge{
+  margin-left:auto;font-size:9px;
+  background:linear-gradient(135deg,var(--pu),var(--pk));
+  color:#fff;border-radius:20px;padding:2px 7px;font-family:var(--mono);font-weight:700;
+}
+.nbadge.warn{background:linear-gradient(135deg,var(--am),var(--rd));}
+.nbadge.ok{background:linear-gradient(135deg,var(--cy),var(--bl));}
+
+.sb-foot{padding:0.75rem;border-top:1px solid var(--b1);flex-shrink:0;}
+.sb-user{
+  display:flex;align-items:center;gap:9px;padding:9px 11px;
+  border-radius:11px;border:1px solid var(--b2);background:var(--bg3);
+}
+.av{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;font-family:var(--d);
+  background:linear-gradient(135deg,var(--pu),var(--pk));color:#fff;
+  box-shadow:0 0 12px rgba(124,80,255,0.4);
+}
+.su-name{font-size:12.5px;font-weight:600;}
+.su-role{font-size:10px;font-family:var(--mono);background:linear-gradient(90deg,var(--cy),var(--pu));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+/* TOPBAR */
+.topbar{
+  position:fixed;top:0;left:var(--sidebar);right:0;height:64px;z-index:200;
+  background:rgba(7,7,15,0.9);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--b1);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(1rem,3vw,2rem);
+}
+.topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--pu),var(--pk),var(--cy),transparent);opacity:0.5;}
+.page-title{font-family:var(--d);font-weight:800;font-size:16px;background:linear-gradient(90deg,var(--pu),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.live-pill{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);
+  border-radius:100px;padding:6px 13px;font-size:11px;color:var(--gr);font-family:var(--mono);
+}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tb-btn{
+  display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--b2);
+  color:var(--t2);border-radius:10px;padding:7px 13px;font-size:12px;transition:all .2s;
+}
+.tb-btn:hover{border-color:var(--pu);color:var(--pu);box-shadow:0 0 15px rgba(124,80,255,0.2);}
+#logout-btn{border-color:rgba(244,63,94,0.3);color:var(--rd);}
+#logout-btn:hover{background:rgba(244,63,94,0.08);border-color:var(--rd);}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);padding:80px clamp(1rem,3vw,2rem) 2.5rem;min-height:100vh;position:relative;z-index:1;}
+
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION HEADER */
+.sec-hdr{display:flex;align-items:center;gap:10px;margin-bottom:1rem;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--t3);text-transform:uppercase;}
+.sec-hdr::before{content:'//';color:var(--pu);margin-right:2px;}
+.sec-hdr::after{content:'';flex:1;height:1px;background:var(--b1);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:1.2rem;}
+.sc{
+  background:var(--card);border:1px solid var(--b1);border-radius:var(--r);
+  padding:1.1rem 1.2rem;position:relative;overflow:hidden;transition:all .25s;cursor:default;
+}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;}
+.sc:hover{transform:translateY(-3px);border-color:var(--b2);}
+.sc.pu::before{background:linear-gradient(90deg,var(--pu),transparent);}
+.sc.pk::before{background:linear-gradient(90deg,var(--pk),transparent);}
+.sc.cy::before{background:linear-gradient(90deg,var(--cy),transparent);}
+.sc.gr::before{background:linear-gradient(90deg,var(--gr),transparent);}
+.sc.am::before{background:linear-gradient(90deg,var(--am),transparent);}
+.sc.rd::before{background:linear-gradient(90deg,var(--rd),transparent);}
+.sc.bl::before{background:linear-gradient(90deg,var(--bl),transparent);}
+.sc-icon{font-size:17px;margin-bottom:9px;}
+.sc.pu .sc-icon{color:var(--pu);}
+.sc.pk .sc-icon{color:var(--pk);}
+.sc.cy .sc-icon{color:var(--cy);}
+.sc.gr .sc-icon{color:var(--gr);}
+.sc.am .sc-icon{color:var(--am);}
+.sc.rd .sc-icon{color:var(--rd);}
+.sc.bl .sc-icon{color:var(--bl);}
+.sc-lbl{font-size:10px;color:var(--t2);margin-bottom:5px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;}
+.sc-val{font-size:22px;font-weight:800;font-family:var(--d);letter-spacing:-1px;}
+.sc-delta{font-size:11px;margin-top:4px;font-family:var(--mono);}
+.up{color:var(--gr);} .dn{color:var(--rd);}
+
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:1.2rem;}
+.cc{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:1.3rem;position:relative;overflow:hidden;}
+.cc::after{content:'';position:absolute;inset:0;border-radius:var(--r);background:radial-gradient(ellipse at top right,rgba(124,80,255,0.04),transparent 60%);pointer-events:none;}
+.cc-title{font-size:10px;font-weight:600;color:var(--t2);font-family:var(--mono);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:1rem;display:flex;align-items:center;gap:7px;}
+.cc-title .dot{width:6px;height:6px;border-radius:50%;}
+.dot-pu{background:var(--pu);box-shadow:0 0 8px var(--pu);}
+.dot-pk{background:var(--pk);box-shadow:0 0 8px var(--pk);}
+.dot-cy{background:var(--cy);box-shadow:0 0 8px var(--cy);}
+.dot-gr{background:var(--gr);box-shadow:0 0 8px var(--gr);}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px;}
+.legend span{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2);font-family:var(--mono);}
+.lsq{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.donut-wrap{position:relative;}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;}
+.dc-big{font-size:22px;font-weight:800;font-family:var(--d);letter-spacing:-1px;}
+.dc-sm{font-size:10px;color:var(--t2);font-family:var(--mono);}
+
+/* MID ROW */
+.mid-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.2rem;}
+.fs{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.fl{font-size:11px;color:var(--t2);width:110px;flex-shrink:0;font-family:var(--mono);}
+.fb-wrap{flex:1;background:var(--bg3);border-radius:4px;height:4px;overflow:hidden;}
+.fb{height:4px;border-radius:4px;transition:width 1s ease;}
+.fn{font-size:11px;font-family:var(--mono);color:var(--t1);min-width:36px;text-align:right;}
+
+/* TABLE CARD */
+.tc{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;margin-bottom:1.5rem;}
+.tc-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.3rem;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:10px;}
+.tc-title{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.search-wrap{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--b2);border-radius:10px;padding:7px 12px;transition:border-color .2s;}
+.search-wrap:focus-within{border-color:var(--pu);box-shadow:0 0 12px rgba(124,80,255,0.15);}
+.search-wrap input{background:none;border:none;outline:none;color:var(--t1);font-size:12.5px;width:140px;font-family:var(--mono);}
+.search-wrap input::placeholder{color:var(--t3);}
+.search-wrap i{color:var(--t3);font-size:12px;}
+.filter-row{display:flex;gap:6px;padding:0.7rem 1.3rem;flex-wrap:wrap;border-bottom:1px solid var(--b1);}
+.pill{font-size:11px;padding:5px 13px;border-radius:100px;border:1px solid var(--b2);color:var(--t2);transition:all .15s;font-family:var(--mono);background:none;}
+.pill:hover{border-color:var(--pu);color:var(--pu);}
+.pill.active{background:linear-gradient(90deg,rgba(124,80,255,0.15),rgba(232,121,249,0.08));color:var(--pu);border-color:rgba(124,80,255,0.4);}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:620px;}
+th{text-align:left;color:var(--t3);font-weight:500;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:9px 16px;border-bottom:1px solid var(--b1);background:rgba(124,80,255,0.03);}
+td{padding:11px 16px;border-bottom:1px solid var(--b1);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(124,80,255,0.03);}
+.uc{display:flex;align-items:center;gap:10px;}
+.av-sm{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:var(--d);flex-shrink:0;}
+.u-name{font-weight:500;white-space:nowrap;}
+.u-email{font-size:11px;color:var(--t2);font-family:var(--mono);}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;padding:3px 9px;border-radius:100px;font-family:var(--mono);}
+.b-active{background:rgba(16,185,129,0.1);color:var(--gr);border:1px solid rgba(16,185,129,0.25);}
+.b-inactive{background:rgba(244,63,94,0.1);color:var(--rd);border:1px solid rgba(244,63,94,0.25);}
+.b-pending{background:rgba(251,191,36,0.1);color:var(--am);border:1px solid rgba(251,191,36,0.25);}
+.role-badge{font-size:10px;padding:2px 8px;border-radius:5px;font-family:var(--mono);font-weight:500;}
+.role-admin{background:rgba(124,80,255,0.15);color:var(--pu);border:1px solid rgba(124,80,255,0.3);}
+.role-mod{background:rgba(56,189,248,0.1);color:var(--bl);border:1px solid rgba(56,189,248,0.25);}
+.role-student{background:rgba(255,255,255,0.04);color:var(--t2);border:1px solid var(--b1);}
+.action-btns{display:flex;gap:5px;}
+.action-btn{
+  padding:4px 10px;border-radius:7px;border:1px solid var(--b1);
+  color:var(--t2);font-size:11px;font-family:var(--mono);transition:all .15s;background:none;
+}
+.action-btn:hover{border-color:var(--pu);color:var(--pu);}
+.action-btn.del:hover{border-color:var(--rd);color:var(--rd);}
+.pb{width:55px;height:3px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.pf{height:3px;border-radius:3px;}
+
+/* ANALYTICS PAGE */
+.an-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.2rem;}
+.an-card{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:1.2rem;}
+.an-card h3{font-size:10px;color:var(--t2);font-family:var(--mono);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.8rem;display:flex;align-items:center;gap:7px;}
+.metric-big{font-size:32px;font-weight:800;font-family:var(--d);letter-spacing:-2px;background:linear-gradient(90deg,var(--pu),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.metric-sub{font-size:12px;color:var(--t2);font-family:var(--mono);margin-top:4px;}
+.heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:8px;}
+.hm-cell{height:14px;border-radius:3px;background:var(--bg3);transition:all .2s;}
+.hm-cell:hover{transform:scale(1.2);}
+.retention-bars{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.ret-bar{display:flex;align-items:center;gap:10px;}
+.ret-label{font-size:10px;font-family:var(--mono);color:var(--t2);width:40px;}
+.ret-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.ret-fill{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--pu),var(--pk));}
+.ret-val{font-size:10px;font-family:var(--mono);color:var(--t1);width:35px;text-align:right;}
+
+/* BOTS PAGE */
+.bots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:1.2rem;}
+.bot-card{
+  background:var(--card);border:1px solid var(--b1);border-radius:var(--r);
+  padding:1.3rem;position:relative;overflow:hidden;transition:all .25s;
+}
+.bot-card:hover{border-color:var(--b2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,0.3);}
+.bot-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;}
+.bot-card.active-bot::before{background:linear-gradient(90deg,var(--cy),transparent);}
+.bot-card.paused-bot::before{background:linear-gradient(90deg,var(--am),transparent);}
+.bot-card.offline-bot::before{background:linear-gradient(90deg,var(--rd),transparent);}
+.bot-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.bot-avatar{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.bot-avatar.pu{background:rgba(124,80,255,0.15);border:1px solid rgba(124,80,255,0.3);}
+.bot-avatar.cy{background:rgba(6,214,160,0.1);border:1px solid rgba(6,214,160,0.25);}
+.bot-avatar.pk{background:rgba(232,121,249,0.1);border:1px solid rgba(232,121,249,0.25);}
+.bot-avatar.am{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);}
+.bot-avatar.bl{background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);}
+.bot-avatar.rd{background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.25);}
+.bot-name{font-size:14px;font-weight:600;font-family:var(--d);}
+.bot-type{font-size:10px;color:var(--t2);font-family:var(--mono);margin-top:2px;}
+.bot-status-badge{margin-left:auto;}
+.bot-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;}
+.bs{background:var(--bg3);border-radius:8px;padding:9px 10px;}
+.bs-lbl{font-size:9px;color:var(--t3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;}
+.bs-val{font-size:15px;font-weight:700;font-family:var(--d);letter-spacing:-0.5px;margin-top:2px;}
+.bot-actions{display:flex;gap:7px;margin-top:12px;}
+.bot-btn{
+  flex:1;padding:7px;border-radius:8px;border:1px solid var(--b2);
+  color:var(--t2);font-size:11.5px;font-family:var(--mono);transition:all .18s;background:none;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+}
+.bot-btn:hover{border-color:var(--pu);color:var(--pu);}
+.bot-btn.danger:hover{border-color:var(--rd);color:var(--rd);}
+.bot-btn.primary{background:rgba(124,80,255,0.12);border-color:rgba(124,80,255,0.3);color:var(--pu);}
+.bot-btn.primary:hover{background:rgba(124,80,255,0.2);}
+.toggle-switch{position:relative;display:inline-flex;align-items:center;gap:8px;cursor:pointer;}
+.toggle-input{display:none;}
+.toggle-track{
+  width:40px;height:22px;border-radius:100px;background:var(--bg3);border:1px solid var(--b2);
+  position:relative;transition:all .25s;
+}
+.toggle-input:checked+.toggle-track{background:rgba(6,214,160,0.2);border-color:rgba(6,214,160,0.4);}
+.toggle-track::after{
+  content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;
+  border-radius:50%;background:var(--t3);transition:all .25s;
+}
+.toggle-input:checked+.toggle-track::after{left:21px;background:var(--cy);}
+.toggle-label{font-size:11px;font-family:var(--mono);color:var(--t2);}
+
+/* SECURITY PAGE */
+.sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.2rem;}
+.sec-card{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:1.3rem;}
+.sec-card h3{font-size:12px;font-weight:600;font-family:var(--d);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+.threat-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--b1);}
+.threat-row:last-child{border-bottom:none;}
+.threat-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.threat-icon.high{background:rgba(244,63,94,0.12);color:var(--rd);}
+.threat-icon.med{background:rgba(251,191,36,0.1);color:var(--am);}
+.threat-icon.low{background:rgba(56,189,248,0.1);color:var(--bl);}
+.threat-info{flex:1;}
+.threat-name{font-size:12.5px;font-weight:500;}
+.threat-detail{font-size:11px;color:var(--t2);font-family:var(--mono);margin-top:2px;}
+.threat-sev{font-size:10px;font-family:var(--mono);padding:2px 8px;border-radius:100px;}
+.sev-high{background:rgba(244,63,94,0.1);color:var(--rd);border:1px solid rgba(244,63,94,0.25);}
+.sev-med{background:rgba(251,191,36,0.1);color:var(--am);border:1px solid rgba(251,191,36,0.25);}
+.sev-low{background:rgba(56,189,248,0.1);color:var(--bl);border:1px solid rgba(56,189,248,0.25);}
+.audit-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--b1);}
+.audit-row:last-child{border-bottom:none;}
+.audit-time{font-size:10px;font-family:var(--mono);color:var(--t3);flex-shrink:0;width:70px;}
+.audit-text{font-size:12px;flex:1;}
+.audit-user{font-size:11px;color:var(--pu);font-family:var(--mono);}
+.audit-badge{font-size:9.5px;padding:2px 7px;border-radius:5px;font-family:var(--mono);}
+.ab-green{background:rgba(16,185,129,0.1);color:var(--gr);}
+.ab-red{background:rgba(244,63,94,0.1);color:var(--rd);}
+.ab-am{background:rgba(251,191,36,0.1);color:var(--am);}
+
+/* SETTINGS PAGE */
+.settings-grid{display:grid;grid-template-columns:250px 1fr;gap:10px;align-items:start;}
+.settings-nav{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:0.75rem;position:sticky;top:85px;}
+.sn-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;margin-bottom:2px;}
+.sn-item:hover{background:rgba(124,80,255,0.07);color:var(--t1);}
+.sn-item.active{background:rgba(124,80,255,0.14);color:var(--pu);}
+.sn-item i{width:15px;text-align:center;font-size:12px;}
+.settings-panel{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:1.5rem;}
+.sp{display:none;}
+.sp.active{display:block;animation:fadeIn .25s ease;}
+.settings-section-title{font-size:15px;font-weight:700;font-family:var(--d);margin-bottom:1.3rem;padding-bottom:0.9rem;border-bottom:1px solid var(--b1);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:10.5px;color:var(--t2);text-transform:uppercase;letter-spacing:1px;font-family:var(--mono);}
+.form-input{
+  background:var(--bg2);border:1px solid var(--b2);border-radius:9px;
+  padding:10px 13px;color:var(--t1);font-size:13px;outline:none;transition:all .2s;
+}
+.form-input:focus{border-color:var(--pu);box-shadow:0 0 12px rgba(124,80,255,0.15);}
+.form-select{
+  background:var(--bg2);border:1px solid var(--b2);border-radius:9px;
+  padding:10px 13px;color:var(--t1);font-size:13px;outline:none;
+  appearance:none;cursor:pointer;
+}
+.form-textarea{
+  background:var(--bg2);border:1px solid var(--b2);border-radius:9px;
+  padding:10px 13px;color:var(--t1);font-size:13px;outline:none;
+  resize:vertical;min-height:80px;
+}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--b1);}
+.setting-row:last-child{border-bottom:none;}
+.setting-info h4{font-size:13.5px;font-weight:500;}
+.setting-info p{font-size:12px;color:var(--t2);margin-top:3px;}
+.save-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,var(--pu),var(--pk));
+  color:#fff;border:none;border-radius:10px;padding:10px 20px;
+  font-size:13px;font-weight:600;font-family:var(--d);
+  box-shadow:0 8px 25px rgba(124,80,255,0.3);transition:all .2s;margin-top:1rem;
+}
+.save-btn:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(124,80,255,0.4);}
+.danger-zone{background:rgba(244,63,94,0.05);border:1px solid rgba(244,63,94,0.2);border-radius:11px;padding:1rem;margin-top:1rem;}
+.danger-zone h4{font-size:12px;font-weight:600;color:var(--rd);margin-bottom:8px;font-family:var(--mono);text-transform:uppercase;}
+.dz-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;border:1px solid rgba(244,63,94,0.3);color:var(--rd);
+  border-radius:8px;padding:8px 14px;font-size:12px;font-family:var(--mono);transition:all .2s;
+}
+.dz-btn:hover{background:rgba(244,63,94,0.1);}
+
+/* NOTIFICATIONS */
+.notif-center{position:fixed;top:75px;right:20px;z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+.notif{
+  background:var(--card);border:1px solid var(--b2);border-radius:11px;
+  padding:12px 16px;font-size:13px;min-width:260px;max-width:320px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.5);pointer-events:all;
+  animation:slideIn .3s ease;display:flex;align-items:center;gap:10px;
+}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+.notif.success{border-color:rgba(16,185,129,0.3);}
+.notif.error{border-color:rgba(244,63,94,0.3);}
+.notif.info{border-color:rgba(124,80,255,0.3);}
+.notif-icon{font-size:16px;flex-shrink:0;}
+.notif.success .notif-icon{color:var(--gr);}
+.notif.error .notif-icon{color:var(--rd);}
+.notif.info .notif-icon{color:var(--pu);}
+
+/* MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:1rem;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--card);border:1px solid var(--b2);border-radius:var(--rl);
+  padding:2rem;width:100%;max-width:440px;position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:fadeUp .3s ease;
+}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--pu),var(--pk),transparent);}
+.modal h3{font-family:var(--d);font-size:17px;font-weight:700;margin-bottom:1rem;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--t3);font-size:18px;padding:4px;}
+.modal-close:hover{color:var(--t1);}
+.modal-actions{display:flex;gap:10px;margin-top:1.5rem;justify-content:flex-end;}
+.modal-btn{
+  padding:9px 18px;border-radius:9px;font-size:13px;font-family:var(--mono);
+  border:1px solid var(--b2);color:var(--t2);background:none;transition:all .2s;
+}
+.modal-btn:hover{border-color:var(--pu);color:var(--pu);}
+.modal-btn.primary{background:linear-gradient(135deg,var(--pu),var(--pk));color:#fff;border:none;box-shadow:0 5px 20px rgba(124,80,255,0.3);}
+.modal-btn.danger{background:rgba(244,63,94,0.1);border-color:var(--rd);color:var(--rd);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .charts-row,.mid-row,.an-grid,.sec-grid,.settings-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(max-width:700px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main,.topbar{margin-left:0;left:0;}
+  .menu-toggle{display:flex;}
+  .bots-grid{grid-template-columns:1fr;}
+  .sec-grid{grid-template-columns:1fr;}
+}
+.menu-toggle{display:none;background:none;border:1px solid var(--b2);border-radius:8px;width:35px;height:35px;align-items:center;justify-content:center;color:var(--t2);font-size:15px;}
+</style>
+</head>
+<body>
+
+<!-- NOTIFICATIONS -->
+<div class="notif-center" id="notif-center"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal-content">
+    <button class="modal-close" onclick="closeModal()"><i class="fa fa-times"></i></button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- LOGIN PAGE -->
+<div id="login-page">
+  <div class="login-box">
+    <div class="lb-logo">
+      <div class="lb-mark">Y</div>
+      <h1>YUVORAI</h1>
+      <div class="sub">ADMIN INTELLIGENCE HUB</div>
+    </div>
+    <div class="lb-card">
+      <label class="field-label">Username</label>
+      <input class="field-input" id="login-user" type="text" placeholder="admin@yuvorai.ai" autocomplete="off">
+      <label class="field-label">Password</label>
+      <input class="field-input" id="login-pass" type="password" placeholder="••••••••••••">
+      <button class="login-btn" onclick="doLogin()"><i class="fa fa-bolt" style="margin-right:7px"></i>Access Dashboard</button>
+      <div class="login-error" id="login-error"><i class="fa fa-triangle-exclamation"></i> Invalid credentials. Try admin / admin123</div>
+    </div>
+    <div class="login-hint">admin / admin123 &nbsp;•&nbsp; mod / mod123 &nbsp;•&nbsp; Any valid input</div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="logo-mark">Y</div>
+    <div>
+      <div class="logo-text">YUVORAI</div>
+      <div class="logo-sub2">Admin Hub v2.0</div>
+    </div>
+  </div>
+  <div class="nav-scroll">
+    <div class="nav-sec">Core</div>
+    <div class="ni active" onclick="navigate('dashboard',this)"><i class="fa fa-house"></i>Dashboard<span class="nbadge ok">Live</span></div>
+    <div class="ni" onclick="navigate('analytics',this)"><i class="fa fa-chart-line"></i>Analytics</div>
+    <div class="ni" onclick="navigate('users',this)"><i class="fa fa-users"></i>Users<span class="nbadge">247</span></div>
+    <div class="nav-sec">AI System</div>
+    <div class="ni" onclick="navigate('bots',this)"><i class="fa fa-robot"></i>Bot Management<span class="nbadge">6</span></div>
+    <div class="ni" onclick="navigate('conversations',this)"><i class="fa fa-comments"></i>Conversations<span class="nbadge warn">12</span></div>
+    <div class="nav-sec">System</div>
+    <div class="ni" onclick="navigate('security',this)"><i class="fa fa-shield"></i>Security<span class="nbadge warn">3</span></div>
+    <div class="ni" onclick="navigate('settings',this)"><i class="fa fa-gear"></i>Settings</div>
+  </div>
+  <div class="sb-foot">
+    <div class="sb-user">
+      <div class="av" id="user-av">A</div>
+      <div>
+        <div class="su-name" id="user-name">Admin</div>
+        <div class="su-role" id="user-role">SUPER ADMIN</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- TOPBAR -->
+<div class="topbar" id="topbar" style="display:none">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button class="menu-toggle" onclick="toggleSidebar()"><i class="fa fa-bars"></i></button>
+    <div class="page-title" id="page-title">Dashboard</div>
+  </div>
+  <div class="topbar-right">
+    <div class="live-pill"><div class="pulse"></div><span id="live-time">--:--</span></div>
+    <button class="tb-btn" onclick="showNotif('Data refreshed!','success')"><i class="fa fa-rotate"></i> Refresh</button>
+    <button class="tb-btn" id="logout-btn" onclick="doLogout()"><i class="fa fa-right-from-bracket"></i> Logout</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main" style="display:none">
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="sec-hdr">Overview</div>
+    <div class="stats-grid">
+      <div class="sc pu"><div class="sc-icon"><i class="fa fa-users"></i></div><div class="sc-lbl">Total Users</div><div class="sc-val" id="stat-total-users">—</div><div class="sc-delta up"><i class="fa fa-arrow-up"></i> +12.4% this week</div></div>
+      <div class="sc cy"><div class="sc-icon"><i class="fa fa-robot"></i></div><div class="sc-lbl">Premium Users</div><div class="sc-val" id="stat-premium">—</div><div class="sc-delta up"><i class="fa fa-arrow-up"></i> +2 since Monday</div></div>
+      <div class="sc pk"><div class="sc-icon"><i class="fa fa-comments"></i></div><div class="sc-lbl">Messages Today</div><div class="sc-val" id="msg-count">8,329</div><div class="sc-delta up"><i class="fa fa-arrow-up"></i> +23.1% vs yesterday</div></div>
+      <div class="sc gr"><div class="sc-icon"><i class="fa fa-rupee-sign"></i></div><div class="sc-lbl">Total Revenue</div><div class="sc-val" id="stat-revenue">—</div><div class="sc-delta up"><i class="fa fa-arrow-up"></i> +1.2% this month</div></div>
+      <div class="sc am"><div class="sc-icon"><i class="fa fa-clock"></i></div><div class="sc-lbl">Avg Response</div><div class="sc-val">1.2s</div><div class="sc-delta up"><i class="fa fa-arrow-down"></i> -0.3s faster</div></div>
+      <div class="sc rd"><div class="sc-icon"><i class="fa fa-clock"></i></div><div class="sc-lbl">Pending Payments</div><div class="sc-val" id="stat-pending">—</div><div class="sc-delta dn"><i class="fa fa-arrow-up"></i> +3 new today</div></div>
+    </div>
+
+    <div class="charts-row">
+      <div class="cc">
+        <div class="cc-title"><div class="dot dot-pu"></div>Message Volume — Last 7 Days</div>
+        <div class="legend">
+          <span><div class="lsq" style="background:var(--pu)"></div>Messages</span>
+          <span><div class="lsq" style="background:var(--pk)"></div>Active Users</span>
+        </div>
+        <canvas id="mainChart" height="200"></canvas>
+      </div>
+      <div class="cc">
+        <div class="cc-title"><div class="dot dot-pk"></div>User Roles</div>
+        <div class="donut-wrap">
+          <canvas id="donutChart" height="200"></canvas>
+          <div class="donut-center"><div class="dc-big">2,471</div><div class="dc-sm">TOTAL</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mid-row">
+      <div class="cc">
+        <div class="cc-title"><div class="dot dot-cy"></div>Top Active Bots</div>
+        <div class="fs"><div class="fl">Yuvora Main</div><div class="fb-wrap"><div class="fb" style="width:88%;background:linear-gradient(90deg,var(--pu),var(--pk))"></div></div><div class="fn">88%</div></div>
+        <div class="fs"><div class="fl">StudyBot Pro</div><div class="fb-wrap"><div class="fb" style="width:72%;background:linear-gradient(90deg,var(--cy),var(--bl))"></div></div><div class="fn">72%</div></div>
+        <div class="fs"><div class="fl">QuizMaster</div><div class="fb-wrap"><div class="fb" style="width:61%;background:linear-gradient(90deg,var(--pk),var(--am))"></div></div><div class="fn">61%</div></div>
+        <div class="fs"><div class="fl">Career Guide</div><div class="fb-wrap"><div class="fb" style="width:45%;background:linear-gradient(90deg,var(--am),var(--gr))"></div></div><div class="fn">45%</div></div>
+        <div class="fs"><div class="fl">Mental Buddy</div><div class="fb-wrap"><div class="fb" style="width:38%;background:linear-gradient(90deg,var(--gr),var(--cy))"></div></div><div class="fn">38%</div></div>
+      </div>
+      <div class="cc">
+        <div class="cc-title"><div class="dot dot-gr"></div>System Health</div>
+        <div class="fs"><div class="fl">API Uptime</div><div class="fb-wrap"><div class="fb" style="width:99.8%;background:var(--gr)"></div></div><div class="fn" style="color:var(--gr)">99.8%</div></div>
+        <div class="fs"><div class="fl">CPU Usage</div><div class="fb-wrap"><div class="fb" style="width:34%;background:var(--cy)"></div></div><div class="fn">34%</div></div>
+        <div class="fs"><div class="fl">RAM Usage</div><div class="fb-wrap"><div class="fb" style="width:58%;background:var(--am)"></div></div><div class="fn">58%</div></div>
+        <div class="fs"><div class="fl">DB Load</div><div class="fb-wrap"><div class="fb" style="width:22%;background:var(--bl)"></div></div><div class="fn">22%</div></div>
+        <div class="fs"><div class="fl">AI Model</div><div class="fb-wrap"><div class="fb" style="width:91%;background:var(--pu)"></div></div><div class="fn">91%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYTICS -->
+  <div class="page" id="page-analytics">
+    <div class="sec-hdr">Analytics Overview</div>
+    <div class="an-grid">
+      <div class="an-card">
+        <h3><div class="dot dot-pu" style="width:6px;height:6px;border-radius:50%;background:var(--pu);display:inline-block"></div>Total Sessions</h3>
+        <div class="metric-big">48,291</div>
+        <div class="metric-sub"><span class="up">↑ 18.3%</span> vs last month</div>
+      </div>
+      <div class="an-card">
+        <h3><div class="dot dot-cy" style="width:6px;height:6px;border-radius:50%;background:var(--cy);display:inline-block"></div>Avg Session Duration</h3>
+        <div class="metric-big">14:32</div>
+        <div class="metric-sub"><span class="up">↑ 2.1 min</span> improvement</div>
+      </div>
+      <div class="an-card">
+        <h3><div class="dot dot-pk" style="width:6px;height:6px;border-radius:50%;background:var(--pk);display:inline-block"></div>Satisfaction Score</h3>
+        <div class="metric-big">4.8/5</div>
+        <div class="metric-sub"><span class="up">↑ 0.2</span> this quarter</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="cc">
+        <div class="cc-title"><div class="dot dot-pu"></div>Monthly User Growth</div>
+        <canvas id="growthChart" height="200"></canvas>
+      </div>
+      <div class="cc">
+        <div class="cc-title"><div class="dot dot-cy"></div>Traffic by Platform</div>
+        <div class="donut-wrap">
+          <canvas id="platformChart" height="200"></canvas>
+          <div class="donut-center"><div class="dc-big">3</div><div class="dc-sm">PLATFORMS</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mid-row">
+      <div class="cc">
+        <div class="cc-title"><div class="dot dot-gr"></div>Activity Heatmap (This Week)</div>
+        <div style="display:flex;gap:8px;font-size:9px;font-family:var(--mono);color:var(--t3);margin-bottom:5px;">
+          <span style="flex:1;text-align:center">Mon</span><span style="flex:1;text-align:center">Tue</span><span style="flex:1;text-align:center">Wed</span><span style="flex:1;text-align:center">Thu</span><span style="flex:1;text-align:center">Fri</span><span style="flex:1;text-align:center">Sat</span><span style="flex:1;text-align:center">Sun</span>
+        </div>
+        <div class="heatmap" id="heatmap"></div>
+      </div>
+      <div class="cc">
+        <div class="cc-title"><div class="dot dot-pk"></div>User Retention by Week</div>
+        <div class="retention-bars">
+          <div class="ret-bar"><div class="ret-label">Week 1</div><div class="ret-track"><div class="ret-fill" style="width:100%"></div></div><div class="ret-val">100%</div></div>
+          <div class="ret-bar"><div class="ret-label">Week 2</div><div class="ret-track"><div class="ret-fill" style="width:72%"></div></div><div class="ret-val">72%</div></div>
+          <div class="ret-bar"><div class="ret-label">Week 3</div><div class="ret-track"><div class="ret-fill" style="width:58%"></div></div><div class="ret-val">58%</div></div>
+          <div class="ret-bar"><div class="ret-label">Week 4</div><div class="ret-track"><div class="ret-fill" style="width:49%"></div></div><div class="ret-val">49%</div></div>
+          <div class="ret-bar"><div class="ret-label">Week 8</div><div class="ret-track"><div class="ret-fill" style="width:38%"></div></div><div class="ret-val">38%</div></div>
+          <div class="ret-bar"><div class="ret-label">Week 12</div><div class="ret-track"><div class="ret-fill" style="width:29%"></div></div><div class="ret-val">29%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USERS -->
+  <div class="page" id="page-users">
+    <div class="sec-hdr">User Management</div>
+    <div class="tc">
+      <div class="tc-head">
+        <div class="tc-title"><i class="fa fa-users" style="color:var(--pu)"></i> All Users</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <div class="search-wrap"><i class="fa fa-search"></i><input type="text" id="user-search" placeholder="Search users..." oninput="filterUsers()"></div>
+          <button class="tb-btn" onclick="showAddUser()"><i class="fa fa-plus"></i> Add User</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <button class="pill active" onclick="filterByRole('all',this)">All Users</button>
+        <button class="pill" onclick="filterByRole('admin',this)">Admins</button>
+        <button class="pill" onclick="filterByRole('mod',this)">Moderators</button>
+        <button class="pill" onclick="filterByRole('student',this)">Students</button>
+        <button class="pill" onclick="filterByRole('active',this)">Active</button>
+        <button class="pill" onclick="filterByRole('inactive',this)">Inactive</button>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th>User</th><th>Role</th><th>Status</th><th>Messages</th><th>Engagement</th><th>Joined</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="users-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOT MANAGEMENT -->
+  <div class="page" id="page-bots">
+    <div class="sec-hdr">Bot Management</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+      <div style="font-size:12px;color:var(--t2);font-family:var(--mono);">6 bots deployed • 4 active • 1 paused • 1 offline</div>
+      <button class="tb-btn" onclick="showAddBot()"><i class="fa fa-plus"></i> Deploy New Bot</button>
+    </div>
+    <div class="bots-grid" id="bots-grid"></div>
+  </div>
+
+  <!-- CONVERSATIONS -->
+  <div class="page" id="page-conversations">
+    <div class="sec-hdr">Conversation Monitor</div>
+    <div class="tc">
+      <div class="tc-head">
+        <div class="tc-title"><i class="fa fa-comments" style="color:var(--pk)"></i> Recent Conversations</div>
+        <div style="display:flex;gap:8px;">
+          <div class="search-wrap"><i class="fa fa-search"></i><input type="text" placeholder="Search conversations..."></div>
+          <button class="tb-btn" onclick="showNotif('Conversations exported!','success')"><i class="fa fa-download"></i> Export</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <button class="pill active">All</button>
+        <button class="pill" onclick="this.parentNode.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">Flagged</button>
+        <button class="pill" onclick="this.parentNode.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">Resolved</button>
+        <button class="pill" onclick="this.parentNode.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">Ongoing</button>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead><tr><th>User</th><th>Bot</th><th>Last Message</th><th>Messages</th><th>Status</th><th>Time</th><th>Actions</th></tr></thead>
+        <tbody id="conv-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="page" id="page-security">
+    <div class="sec-hdr">Security Center</div>
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:1.2rem;">
+      <div class="sc gr"><div class="sc-icon"><i class="fa fa-shield-check"></i></div><div class="sc-lbl">Threats Blocked</div><div class="sc-val">1,247</div><div class="sc-delta up">This month</div></div>
+      <div class="sc rd"><div class="sc-icon"><i class="fa fa-triangle-exclamation"></i></div><div class="sc-lbl">Active Alerts</div><div class="sc-val">3</div><div class="sc-delta dn">Needs attention</div></div>
+      <div class="sc am"><div class="sc-icon"><i class="fa fa-user-slash"></i></div><div class="sc-lbl">Banned Users</div><div class="sc-val">18</div><div class="sc-delta">Total banned</div></div>
+      <div class="sc bl"><div class="sc-icon"><i class="fa fa-lock"></i></div><div class="sc-lbl">2FA Enabled</div><div class="sc-val">84%</div><div class="sc-delta up">Users secured</div></div>
+    </div>
+    <div class="sec-grid">
+      <div class="sec-card">
+        <h3><i class="fa fa-triangle-exclamation" style="color:var(--rd)"></i> Active Threats</h3>
+        <div class="threat-row">
+          <div class="threat-icon high"><i class="fa fa-skull"></i></div>
+          <div class="threat-info"><div class="threat-name">Brute Force Attempt</div><div class="threat-detail">IP: 192.168.1.45 • 247 attempts</div></div>
+          <span class="threat-sev sev-high">HIGH</span>
+        </div>
+        <div class="threat-row">
+          <div class="threat-icon med"><i class="fa fa-eye"></i></div>
+          <div class="threat-info"><div class="threat-name">Unusual Access Pattern</div><div class="threat-detail">User: ravi_k • 3 countries</div></div>
+          <span class="threat-sev sev-med">MED</span>
+        </div>
+        <div class="threat-row">
+          <div class="threat-icon low"><i class="fa fa-robot"></i></div>
+          <div class="threat-info"><div class="threat-name">Bot Traffic Spike</div><div class="threat-detail">+340% from API endpoint</div></div>
+          <span class="threat-sev sev-low">LOW</span>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:1rem;">
+          <button class="tb-btn" style="flex:1;justify-content:center;" onclick="showNotif('All threats resolved!','success')"><i class="fa fa-check"></i> Resolve All</button>
+          <button class="tb-btn" style="flex:1;justify-content:center;" onclick="showNotif('Security report generated!','info')"><i class="fa fa-download"></i> Export Report</button>
+        </div>
+      </div>
+      <div class="sec-card">
+        <h3><i class="fa fa-list" style="color:var(--bl)"></i> Audit Log</h3>
+        <div class="audit-row">
+          <div class="audit-time">2m ago</div>
+          <div><div class="audit-text">User banned for policy violation</div><div class="audit-user">by @admin_priya</div></div>
+          <span class="audit-badge ab-red">Ban</span>
+        </div>
+        <div class="audit-row">
+          <div class="audit-time">15m ago</div>
+          <div><div class="audit-text">Bot "QuizMaster" configuration updated</div><div class="audit-user">by @admin</div></div>
+          <span class="audit-badge ab-green">Update</span>
+        </div>
+        <div class="audit-row">
+          <div class="audit-time">1h ago</div>
+          <div><div class="audit-text">New admin role assigned to user</div><div class="audit-user">by @superadmin</div></div>
+          <span class="audit-badge ab-am">Role</span>
+        </div>
+        <div class="audit-row">
+          <div class="audit-time">3h ago</div>
+          <div><div class="audit-text">Security rules updated — IP whitelist</div><div class="audit-user">by @admin</div></div>
+          <span class="audit-badge ab-green">Config</span>
+        </div>
+        <div class="audit-row">
+          <div class="audit-time">6h ago</div>
+          <div><div class="audit-text">API rate limits increased to 10k/hr</div><div class="audit-user">by @admin</div></div>
+          <span class="audit-badge ab-green">Config</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cc" style="margin-bottom:1.2rem;">
+      <div class="cc-title"><div class="dot dot-rd" style="width:6px;height:6px;border-radius:50%;background:var(--rd);display:inline-block"></div>Security Events — Last 30 Days</div>
+      <canvas id="securityChart" height="120"></canvas>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="page" id="page-settings">
+    <div class="sec-hdr">System Settings</div>
+    <div class="settings-grid">
+      <div class="settings-nav">
+        <div class="sn-item active" onclick="switchSettings('general',this)"><i class="fa fa-sliders"></i>General</div>
+        <div class="sn-item" onclick="switchSettings('ai',this)"><i class="fa fa-robot"></i>AI Config</div>
+        <div class="sn-item" onclick="switchSettings('notifications',this)"><i class="fa fa-bell"></i>Notifications</div>
+        <div class="sn-item" onclick="switchSettings('api',this)"><i class="fa fa-code"></i>API & Keys</div>
+        <div class="sn-item" onclick="switchSettings('appearance',this)"><i class="fa fa-palette"></i>Appearance</div>
+        <div class="sn-item" onclick="switchSettings('danger',this)"><i class="fa fa-triangle-exclamation" style="color:var(--rd)"></i>Danger Zone</div>
+      </div>
+      <div class="settings-panel">
+        <!-- GENERAL -->
+        <div class="sp active" id="sp-general">
+          <div class="settings-section-title">General Settings</div>
+          <div class="form-row">
+            <div class="form-group"><div class="form-label">Platform Name</div><input class="form-input" value="YUVORAI" type="text"></div>
+            <div class="form-group"><div class="form-label">Admin Email</div><input class="form-input" value="admin@yuvorai.ai" type="email"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><div class="form-label">Timezone</div><select class="form-select"><option>Asia/Kolkata (IST)</option><option>UTC</option><option>US/Eastern</option></select></div>
+            <div class="form-group"><div class="form-label">Language</div><select class="form-select"><option>English</option><option>Hindi</option><option>Hinglish</option></select></div>
+          </div>
+          <div class="form-group" style="margin-bottom:14px;"><div class="form-label">Platform Description</div><textarea class="form-textarea">YUVORAI is an AI-powered learning platform for students.</textarea></div>
+          <div class="setting-row"><div class="setting-info"><h4>Maintenance Mode</h4><p>Take the platform offline for maintenance</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input"><div class="toggle-track"></div></label></div>
+          <div class="setting-row"><div class="setting-info"><h4>Registration Open</h4><p>Allow new users to register</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <button class="save-btn" onclick="showNotif('Settings saved!','success')"><i class="fa fa-check"></i> Save Changes</button>
+        </div>
+        <!-- AI CONFIG -->
+        <div class="sp" id="sp-ai">
+          <div class="settings-section-title">AI Configuration</div>
+          <div class="form-row">
+            <div class="form-group"><div class="form-label">AI Model</div><select class="form-select"><option>GPT-4o</option><option>Claude 3.5</option><option>Gemini Pro</option><option>Llama 3.1</option></select></div>
+            <div class="form-group"><div class="form-label">Temperature</div><input class="form-input" type="number" value="0.7" min="0" max="1" step="0.1"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><div class="form-label">Max Tokens</div><input class="form-input" type="number" value="2048"></div>
+            <div class="form-group"><div class="form-label">Response Timeout (s)</div><input class="form-input" type="number" value="30"></div>
+          </div>
+          <div class="form-group" style="margin-bottom:14px;"><div class="form-label">System Prompt</div><textarea class="form-textarea" style="min-height:100px;">You are YUVORAI, a helpful AI assistant for students. Be friendly, concise, and educational.</textarea></div>
+          <div class="setting-row"><div class="setting-info"><h4>Content Moderation</h4><p>Auto-filter harmful content with AI</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <div class="setting-row"><div class="setting-info"><h4>Context Memory</h4><p>Remember conversation history per user</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <div class="setting-row"><div class="setting-info"><h4>Streaming Responses</h4><p>Show responses word by word</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <button class="save-btn" onclick="showNotif('AI config updated!','success')"><i class="fa fa-robot"></i> Save AI Settings</button>
+        </div>
+        <!-- NOTIFICATIONS -->
+        <div class="sp" id="sp-notifications">
+          <div class="settings-section-title">Notification Preferences</div>
+          <div class="setting-row"><div class="setting-info"><h4>Security Alerts</h4><p>Get notified on security events</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <div class="setting-row"><div class="setting-info"><h4>New User Signups</h4><p>Alert on new registrations</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input"><div class="toggle-track"></div></label></div>
+          <div class="setting-row"><div class="setting-info"><h4>Bot Errors</h4><p>Notify when bots fail or crash</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <div class="setting-row"><div class="setting-info"><h4>Daily Summary Email</h4><p>Receive daily platform metrics email</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <div class="setting-row"><div class="setting-info"><h4>Flagged Conversations</h4><p>Immediate alert on flagged chats</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <div class="form-group" style="margin-top:1rem;"><div class="form-label">Webhook URL</div><input class="form-input" type="url" placeholder="https://hooks.slack.com/..."></div>
+          <button class="save-btn" onclick="showNotif('Notification settings saved!','success')"><i class="fa fa-bell"></i> Save Notifications</button>
+        </div>
+        <!-- API -->
+        <div class="sp" id="sp-api">
+          <div class="settings-section-title">API & Integration Keys</div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <div class="form-label">OpenAI API Key</div>
+            <div style="display:flex;gap:8px;">
+              <input class="form-input" type="password" value="sk-proj-xxxxxxxxxxxxxxxx" style="flex:1;font-family:var(--mono);">
+              <button class="tb-btn" onclick="showNotif('Key copied!','success')"><i class="fa fa-copy"></i></button>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <div class="form-label">YUVORAI Public API Key</div>
+            <div style="display:flex;gap:8px;">
+              <input class="form-input" type="text" value="yuv_live_a9f2k3m..." style="flex:1;font-family:var(--mono);">
+              <button class="tb-btn" onclick="showNotif('New key generated!','info')"><i class="fa fa-rotate"></i> Regen</button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><div class="form-label">Rate Limit (req/hr)</div><input class="form-input" type="number" value="10000"></div>
+            <div class="form-group"><div class="form-label">Allowed Origins</div><input class="form-input" type="text" value="*.yuvorai.ai"></div>
+          </div>
+          <div class="setting-row"><div class="setting-info"><h4>API Access Enabled</h4><p>Allow external API access</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <button class="save-btn" onclick="showNotif('API settings updated!','success')"><i class="fa fa-code"></i> Save API Config</button>
+        </div>
+        <!-- APPEARANCE -->
+        <div class="sp" id="sp-appearance">
+          <div class="settings-section-title">Appearance</div>
+          <div class="form-row">
+            <div class="form-group"><div class="form-label">Primary Color</div><input class="form-input" type="color" value="#7c50ff" style="height:44px;padding:4px 8px;"></div>
+            <div class="form-group"><div class="form-label">Accent Color</div><input class="form-input" type="color" value="#e879f9" style="height:44px;padding:4px 8px;"></div>
+          </div>
+          <div class="form-group" style="margin-bottom:14px;"><div class="form-label">Platform Logo URL</div><input class="form-input" type="url" placeholder="https://yuvorai.ai/logo.png"></div>
+          <div class="setting-row"><div class="setting-info"><h4>Dark Mode (Default)</h4><p>Force dark mode for all users</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <div class="setting-row"><div class="setting-info"><h4>Animated Background</h4><p>Show particles and gradients</p></div><label class="toggle-switch"><input type="checkbox" class="toggle-input" checked><div class="toggle-track"></div></label></div>
+          <button class="save-btn" onclick="showNotif('Appearance saved!','success')"><i class="fa fa-palette"></i> Apply Theme</button>
+        </div>
+        <!-- DANGER -->
+        <div class="sp" id="sp-danger">
+          <div class="settings-section-title">Danger Zone</div>
+          <div class="danger-zone">
+            <h4><i class="fa fa-triangle-exclamation"></i> Irreversible Actions</h4>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <div><div style="font-size:13px;font-weight:500;">Clear All Conversations</div><div style="font-size:11px;color:var(--t2);margin-top:2px;">Permanently delete all chat history</div></div>
+                <button class="dz-btn" onclick="showConfirm('Clear all conversations?','This will permanently delete all conversation history.','clearConversations')"><i class="fa fa-trash"></i> Clear</button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <div><div style="font-size:13px;font-weight:500;">Reset All Bots</div><div style="font-size:11px;color:var(--t2);margin-top:2px;">Reset all bot configurations to default</div></div>
+                <button class="dz-btn" onclick="showConfirm('Reset all bots?','Bot configs will revert to factory settings.','resetBots')"><i class="fa fa-rotate"></i> Reset</button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <div><div style="font-size:13px;font-weight:500;">Delete Platform</div><div style="font-size:11px;color:var(--t2);margin-top:2px;">Permanently delete all data and accounts</div></div>
+                <button class="dz-btn" onclick="showConfirm('DELETE PLATFORM?','This will permanently destroy EVERYTHING. Are you absolutely sure?','deletePlatform')"><i class="fa fa-skull"></i> DELETE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main -->
+
+<script>
+// ═══════════════════════ DATA ═══════════════════════
+const USERS = [
+  {id:1,name:'Priya Sharma',email:'priya.s@yuvorai.ai',role:'admin',status:'active',msgs:1247,joined:'Jan 12, 2024',color:'#7c50ff'},
+  {id:2,name:'Rahul Verma',email:'rahul.v@student.in',role:'student',status:'active',msgs:893,joined:'Feb 3, 2024',color:'#06d6a0'},
+  {id:3,name:'Ananya Singh',email:'ananya.s@yuvorai.ai',role:'mod',status:'active',msgs:445,joined:'Jan 28, 2024',color:'#e879f9'},
+  {id:4,name:'Kiran Patel',email:'kiran.p@student.in',role:'student',status:'inactive',msgs:67,joined:'Mar 15, 2024',color:'#fbbf24'},
+  {id:5,name:'Dev Mehta',email:'dev.m@student.in',role:'student',status:'active',msgs:2341,joined:'Dec 5, 2023',color:'#38bdf8'},
+  {id:6,name:'Sanya Gupta',email:'sanya.g@yuvorai.ai',role:'mod',status:'pending',msgs:112,joined:'Apr 2, 2024',color:'#f43f5e'},
+  {id:7,name:'Arjun Nair',email:'arjun.n@student.in',role:'student',status:'active',msgs:789,joined:'Feb 20, 2024',color:'#7c50ff'},
+  {id:8,name:'Meera Joshi',email:'meera.j@student.in',role:'student',status:'active',msgs:334,joined:'Mar 8, 2024',color:'#e879f9'},
+];
+
+const BOTS = [
+  {id:1,name:'Yuvora Main',type:'General Assistant',status:'active',icon:'🤖',color:'pu',msgs:48291,accuracy:94,uptime:'99.8%',users:1847},
+  {id:2,name:'StudyBot Pro',type:'Academic Tutor',status:'active',icon:'📚',color:'cy',msgs:23410,accuracy:91,uptime:'98.4%',users:934},
+  {id:3,name:'QuizMaster',type:'Assessment Engine',status:'active',icon:'🎯',color:'pk',msgs:12890,accuracy:97,uptime:'99.1%',users:612},
+  {id:4,name:'Career Guide',type:'Career Counselor',status:'paused',icon:'💼',color:'am',msgs:8721,accuracy:88,uptime:'—',users:0},
+  {id:5,name:'Mental Buddy',type:'Wellness Support',status:'active',icon:'🧠',color:'bl',msgs:6432,accuracy:89,uptime:'97.2%',users:289},
+  {id:6,name:'Code Sensei',type:'Programming Tutor',status:'offline',icon:'💻',color:'rd',msgs:3210,accuracy:93,uptime:'—',users:0},
+];
+
+const CONVERSATIONS = [
+  {user:'Rahul Verma',bot:'Yuvora Main',last:'How do I solve differential equations?',msgs:47,status:'active',time:'2m ago'},
+  {user:'Dev Mehta',bot:'StudyBot Pro',last:'Explain quantum mechanics basics',msgs:23,status:'active',time:'5m ago'},
+  {user:'Arjun Nair',bot:'QuizMaster',last:'Quiz on Indian history 1857',msgs:89,status:'active',time:'8m ago'},
+  {user:'Meera Joshi',bot:'Mental Buddy',last:'Feeling stressed about exams',msgs:14,status:'flagged',time:'12m ago'},
+  {user:'Kiran Patel',bot:'Yuvora Main',last:'What is photosynthesis?',msgs:5,status:'resolved',time:'25m ago'},
+  {user:'Sanya Gupta',bot:'StudyBot Pro',last:'Help with English essay writing',msgs:31,status:'active',time:'31m ago'},
+  {user:'Priya Sharma',bot:'Code Sensei',last:'Python list comprehension examples',msgs:62,status:'resolved',time:'1h ago'},
+  {user:'Ananya Singh',bot:'Career Guide',last:'Should I choose CS or MBA?',msgs:18,status:'flagged',time:'2h ago'},
+];
+
+let currentUser = null;
+let activeRoleFilter = 'all';
+let chartInstances = {};
+
+// ═══════════════════════ AUTH ═══════════════════════
+// ── API CONFIG — apna server URL yahan daalo ──────────────────────────────────
+let API_TOKEN = "";
+const API_BASE = 'http://3.110.128.143:3000/api';
+
+async function api(path, options = {}) {
+  const res = await fetch(API_BASE + path, {
+    ...options,
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': API_TOKEN, ...(options.headers || {}) },
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+async function doLogin() {
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value;
+  const err = document.getElementById('login-error');
+  if (!p) { err.style.display = 'block'; err.textContent = 'Password required'; return; }
+  try {
+    const res = await api('/login', { method: 'POST', body: JSON.stringify({ password: p }) });
+    if (res.success) {
+      API_TOKEN = res.token;
+      const name = u || 'Admin';
+      currentUser = { name, role: 'ADMIN' };
+      document.getElementById('user-name').textContent = name;
+      document.getElementById('user-role').textContent = 'ADMIN';
+      document.getElementById('user-av').textContent = name[0].toUpperCase();
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('topbar').style.display = 'flex';
+      document.getElementById('main').style.display = 'block';
+      err.style.display = 'none';
+      initDashboard();
+      startClock();
+      showNotif('Welcome back! 👋 Live data loading...', 'success');
+    } else {
+      err.style.display = 'block'; err.textContent = 'Wrong password!';
+    }
+  } catch(e) {
+    err.style.display = 'block';
+    err.textContent = 'Server se connect nahi hua — check karo API URL!';
+    console.error('Login failed:', e);
+  }
+}
+
+function doLogout() {
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('topbar').style.display = 'none';
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  Object.values(chartInstances).forEach(c => c.destroy && c.destroy());
+  chartInstances = {};
+  showNotif('Logged out successfully','info');
+}
+
+// ═══════════════════════ NAVIGATION ═══════════════════════
+const pageTitles = {
+  dashboard:'Dashboard',analytics:'Analytics',users:'User Management',
+  bots:'Bot Management',conversations:'Conversation Monitor',
+  security:'Security Center',settings:'System Settings'
+};
+
+function navigate(page, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('page-title').textContent = pageTitles[page];
+  
+  if(page === 'analytics') initAnalyticsCharts();
+  if(page === 'users') renderUsers();
+  if(page === 'bots') renderBots();
+  if(page === 'conversations') renderConversations();
+  if(page === 'security') initSecurityChart();
+}
+
+// ═══════════════════════ CLOCK ═══════════════════════
+function startClock() {
+  const tick = () => {
+    const now = new Date();
+    document.getElementById('live-time').textContent = now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  };
+  tick(); setInterval(tick, 1000);
+  // Animate msg count
+  setInterval(() => {
+    const el = document.getElementById('msg-count');
+    if(el) { const v = parseInt(el.textContent.replace(',',''))+Math.floor(Math.random()*3); el.textContent = v.toLocaleString(); }
+  }, 3000);
+}
+
+// ═══════════════════════ DASHBOARD CHARTS ═══════════════════════
+function initDashboard() {
+  renderUsers(); renderBots(); renderConversations();
+  loadLiveStats();
+  loadLiveChartData();
+  // Refresh stats every 30 seconds
+  setInterval(loadLiveStats, 30000);
+  
+  // Main chart
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  chartInstances.main = new Chart(ctx, {
+    type:'line',
+    data:{
+      labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+      datasets:[
+        {label:'Messages',data:[5240,6830,7210,6940,8329,9120,8750],borderColor:'#7c50ff',backgroundColor:'rgba(124,80,255,0.08)',fill:true,tension:0.4,borderWidth:2,pointBackgroundColor:'#7c50ff',pointRadius:4},
+        {label:'Active Users',data:[420,580,610,540,720,810,760],borderColor:'#e879f9',backgroundColor:'rgba(232,121,249,0.06)',fill:true,tension:0.4,borderWidth:2,pointBackgroundColor:'#e879f9',pointRadius:4}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:true,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#13132a',titleColor:'#ede9ff',bodyColor:'#8878bb',borderColor:'rgba(124,80,255,0.2)',borderWidth:1}},
+      scales:{
+        x:{grid:{color:'rgba(124,80,255,0.06)'},ticks:{color:'#8878bb',font:{size:11}}},
+        y:{grid:{color:'rgba(124,80,255,0.06)'},ticks:{color:'#8878bb',font:{size:11}}}
+      }
+    }
+  });
+
+  // Donut chart
+  const ctx2 = document.getElementById('donutChart').getContext('2d');
+  chartInstances.donut = new Chart(ctx2, {
+    type:'doughnut',
+    data:{
+      labels:['Students','Moderators','Admins'],
+      datasets:[{data:[2198,198,75],backgroundColor:['#7c50ff','#e879f9','#06d6a0'],borderColor:'transparent',borderWidth:0}]
+    },
+    options:{
+      cutout:'72%',responsive:true,maintainAspectRatio:true,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#13132a',titleColor:'#ede9ff',bodyColor:'#8878bb'}}
+    }
+  });
+}
+
+// ═══════════════════════ ANALYTICS CHARTS ═══════════════════════
+function initAnalyticsCharts() {
+  if(chartInstances.growth) { chartInstances.growth.destroy(); chartInstances.platform?.destroy(); }
+  
+  const months = ['Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
+  const ctx3 = document.getElementById('growthChart').getContext('2d');
+  chartInstances.growth = new Chart(ctx3, {
+    type:'bar',
+    data:{
+      labels:months,
+      datasets:[
+        {label:'New Users',data:[89,124,198,267,412,580,734,891,1102,1247],backgroundColor:'rgba(124,80,255,0.7)',borderRadius:5},
+        {label:'Active Users',data:[67,98,156,210,340,490,620,750,920,1100],backgroundColor:'rgba(232,121,249,0.5)',borderRadius:5}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:true,
+      plugins:{legend:{labels:{color:'#8878bb',font:{size:11}}},tooltip:{backgroundColor:'#13132a',titleColor:'#ede9ff',bodyColor:'#8878bb'}},
+      scales:{
+        x:{grid:{color:'rgba(124,80,255,0.06)'},ticks:{color:'#8878bb',font:{size:11}}},
+        y:{grid:{color:'rgba(124,80,255,0.06)'},ticks:{color:'#8878bb',font:{size:11}}}
+      }
+    }
+  });
+
+  const ctx4 = document.getElementById('platformChart').getContext('2d');
+  chartInstances.platform = new Chart(ctx4, {
+    type:'doughnut',
+    data:{
+      labels:['Web','Android','iOS'],
+      datasets:[{data:[58,28,14],backgroundColor:['#7c50ff','#06d6a0','#e879f9'],borderColor:'transparent',borderWidth:0}]
+    },
+    options:{
+      cutout:'72%',responsive:true,
+      plugins:{legend:{position:'bottom',labels:{color:'#8878bb',font:{size:11},padding:15}},tooltip:{backgroundColor:'#13132a'}}
+    }
+  });
+
+  // Heatmap
+  const hm = document.getElementById('heatmap');
+  if(hm && !hm.dataset.built) {
+    hm.dataset.built = '1';
+    for(let i=0;i<28;i++){
+      const cell = document.createElement('div');
+      cell.className = 'hm-cell';
+      const v = Math.random();
+      if(v > 0.85) cell.style.background = '#7c50ff';
+      else if(v > 0.65) cell.style.background = 'rgba(124,80,255,0.55)';
+      else if(v > 0.4) cell.style.background = 'rgba(124,80,255,0.3)';
+      else if(v > 0.2) cell.style.background = 'rgba(124,80,255,0.15)';
+      cell.title = `${Math.floor(v*200)} sessions`;
+      hm.appendChild(cell);
+    }
+  }
+}
+
+// ═══════════════════════ SECURITY CHART ═══════════════════════
+function initSecurityChart() {
+  if(chartInstances.security) chartInstances.security.destroy();
+  const ctx = document.getElementById('securityChart').getContext('2d');
+  const days = Array.from({length:30},(_,i)=>`Day ${i+1}`);
+  const threats = Array.from({length:30},()=>Math.floor(Math.random()*80+10));
+  const blocked = threats.map(t=>Math.floor(t*0.92));
+  chartInstances.security = new Chart(ctx, {
+    type:'line',
+    data:{
+      labels:days,
+      datasets:[
+        {label:'Threats Detected',data:threats,borderColor:'#f43f5e',backgroundColor:'rgba(244,63,94,0.06)',fill:true,tension:0.4,borderWidth:2,pointRadius:0},
+        {label:'Threats Blocked',data:blocked,borderColor:'#06d6a0',backgroundColor:'rgba(6,214,160,0.06)',fill:true,tension:0.4,borderWidth:2,pointRadius:0}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:true,
+      plugins:{legend:{labels:{color:'#8878bb',font:{size:11}}},tooltip:{backgroundColor:'#13132a',titleColor:'#ede9ff',bodyColor:'#8878bb'}},
+      scales:{
+        x:{grid:{color:'rgba(124,80,255,0.05)'},ticks:{color:'#8878bb',font:{size:10},maxTicksLimit:10}},
+        y:{grid:{color:'rgba(124,80,255,0.05)'},ticks:{color:'#8878bb',font:{size:10}}}
+      }
+    }
+  });
+}
+
+// ═══════════════════════ USERS ═══════════════════════
+function renderUsers(filter='', roleFilter=activeRoleFilter) {
+  const tbody = document.getElementById('users-tbody');
+  let filtered = USERS.filter(u => {
+    const matchSearch = !filter || u.name.toLowerCase().includes(filter) || u.email.toLowerCase().includes(filter);
+    const matchRole = roleFilter === 'all' || u.role === roleFilter || u.status === roleFilter;
+    return matchSearch && matchRole;
+  });
+  const engage = {2341:100,1247:53,893:38,789:34,445:19,334:14,112:5,67:3};
+  tbody.innerHTML = filtered.map(u => `
+    <tr>
+      <td><div class="uc">
+        <div class="av-sm" style="background:${u.color}22;color:${u.color};border:1px solid ${u.color}44">${u.name[0]}</div>
+        <div><div class="u-name">${u.name}</div><div class="u-email">${u.email}</div></div>
+      </div></td>
+      <td><span class="role-badge role-${u.role}">${u.role}</span></td>
+      <td><span class="badge b-${u.status}"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block"></span>${u.status}</span></td>
+      <td style="font-family:var(--mono);font-size:12px">${u.msgs.toLocaleString()}</td>
+      <td><div class="pb"><div class="pf" style="width:${engage[u.msgs]||10}%;background:${u.color}"></div></div></td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--t2)">${u.joined}</td>
+      <td><div class="action-btns">
+        <button class="action-btn" onclick="showUserModal(${u.id})"><i class="fa fa-eye"></i></button>
+        <button class="action-btn" onclick="showNotif('User edited!','success')"><i class="fa fa-pencil"></i></button>
+        <button class="action-btn del" onclick="showNotif('User banned!','error')"><i class="fa fa-ban"></i></button>
+      </div></td>
+    </tr>
+  `).join('');
+}
+
+function filterUsers() {
+  renderUsers(document.getElementById('user-search').value.toLowerCase());
+}
+
+function filterByRole(role, el) {
+  activeRoleFilter = role;
+  document.querySelectorAll('.filter-row .pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderUsers(document.getElementById('user-search')?.value.toLowerCase()||'');
+}
+
+function showUserModal(id) {
+  const u = USERS.find(x=>x.id===id);
+  document.getElementById('modal-body').innerHTML = `
+    <h3><i class="fa fa-user" style="color:var(--pu);margin-right:8px"></i>User Profile</h3>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.2rem;padding:1rem;background:var(--bg3);border-radius:11px;">
+      <div style="width:48px;height:48px;border-radius:50%;background:${u.color}22;color:${u.color};border:1px solid ${u.color}44;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:var(--d);flex-shrink:0">${u.name[0]}</div>
+      <div><div style="font-size:15px;font-weight:600">${u.name}</div><div style="font-size:12px;color:var(--t2);font-family:var(--mono)">${u.email}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-family:var(--mono);font-size:12px;">
+      <div style="background:var(--bg3);padding:10px;border-radius:9px"><div style="color:var(--t3);font-size:10px;margin-bottom:4px">ROLE</div><span class="role-badge role-${u.role}">${u.role}</span></div>
+      <div style="background:var(--bg3);padding:10px;border-radius:9px"><div style="color:var(--t3);font-size:10px;margin-bottom:4px">STATUS</div><span class="badge b-${u.status}">${u.status}</span></div>
+      <div style="background:var(--bg3);padding:10px;border-radius:9px"><div style="color:var(--t3);font-size:10px;margin-bottom:4px">MESSAGES</div><div style="font-size:18px;font-weight:700;color:var(--pu)">${u.msgs.toLocaleString()}</div></div>
+      <div style="background:var(--bg3);padding:10px;border-radius:9px"><div style="color:var(--t3);font-size:10px;margin-bottom:4px">JOINED</div><div style="color:var(--t1)">${u.joined}</div></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closeModal()">Close</button>
+      <button class="modal-btn primary" onclick="closeModal();showNotif('User updated!','success')"><i class="fa fa-check"></i> Save Changes</button>
+    </div>
+  `;
+  openModal();
+}
+
+function showAddUser() {
+  document.getElementById('modal-body').innerHTML = `
+    <h3><i class="fa fa-user-plus" style="color:var(--cy);margin-right:8px"></i>Add New User</h3>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">Full Name</div><input class="form-input" placeholder="Enter full name"></div>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">Email</div><input class="form-input" type="email" placeholder="user@example.com"></div>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">Role</div><select class="form-select"><option>student</option><option>mod</option><option>admin</option></select></div>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">Password</div><input class="form-input" type="password" placeholder="Set initial password"></div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="closeModal();showNotif('User created successfully!','success')"><i class="fa fa-plus"></i> Create User</button>
+    </div>
+  `;
+  openModal();
+}
+
+// ═══════════════════════ BOTS ═══════════════════════
+function renderBots() {
+  const grid = document.getElementById('bots-grid');
+  grid.innerHTML = BOTS.map(b => `
+    <div class="bot-card ${b.status}-bot" id="bot-card-${b.id}">
+      <div class="bot-header">
+        <div class="bot-avatar ${b.color}">${b.icon}</div>
+        <div>
+          <div class="bot-name">${b.name}</div>
+          <div class="bot-type">${b.type}</div>
+        </div>
+        <div class="bot-status-badge">
+          <span class="badge ${b.status==='active'?'b-active':b.status==='paused'?'b-pending':'b-inactive'}">
+            <span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block"></span>
+            ${b.status}
+          </span>
+        </div>
+      </div>
+      <div class="bot-stats">
+        <div class="bs"><div class="bs-lbl">Total Msgs</div><div class="bs-val">${(b.msgs/1000).toFixed(1)}k</div></div>
+        <div class="bs"><div class="bs-lbl">Accuracy</div><div class="bs-val">${b.accuracy}%</div></div>
+        <div class="bs"><div class="bs-lbl">Uptime</div><div class="bs-val">${b.uptime}</div></div>
+        <div class="bs"><div class="bs-lbl">Active Users</div><div class="bs-val">${b.users}</div></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:11px;font-family:var(--mono);color:var(--t2)">Auto-restart on crash</span>
+        <label class="toggle-switch">
+          <input type="checkbox" class="toggle-input" ${b.status==='active'?'checked':''} onchange="toggleBot(${b.id},this)">
+          <div class="toggle-track"></div>
+        </label>
+      </div>
+      <div class="bot-actions">
+        <button class="bot-btn primary" onclick="showBotConfig(${b.id})"><i class="fa fa-gear"></i> Config</button>
+        <button class="bot-btn" onclick="restartBot(${b.id})"><i class="fa fa-rotate"></i> Restart</button>
+        <button class="bot-btn danger" onclick="showConfirm('Delete ${b.name}?','This bot will be permanently removed.','deleteBot_${b.id}')"><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleBot(id, el) {
+  const bot = BOTS.find(b=>b.id===id);
+  bot.status = el.checked ? 'active' : 'paused';
+  const card = document.getElementById('bot-card-'+id);
+  if(card) {
+    card.className = `bot-card ${bot.status}-bot`;
+    card.querySelector('.badge').className = `badge ${bot.status==='active'?'b-active':'b-pending'}`;
+    card.querySelector('.badge').innerHTML = `<span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block"></span>${bot.status}`;
+  }
+  showNotif(`${bot.name} ${bot.status==='active'?'activated':'paused'}!`, bot.status==='active'?'success':'info');
+}
+
+function restartBot(id) {
+  const bot = BOTS.find(b=>b.id===id);
+  showNotif(`${bot.name} restarting...`,'info');
+  setTimeout(()=>showNotif(`${bot.name} is online!`,'success'),2000);
+}
+
+function showBotConfig(id) {
+  const bot = BOTS.find(b=>b.id===id);
+  document.getElementById('modal-body').innerHTML = `
+    <h3><i class="fa fa-gear" style="color:var(--pu);margin-right:8px"></i>Configure ${bot.name}</h3>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">Bot Name</div><input class="form-input" value="${bot.name}"></div>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">Bot Type</div><input class="form-input" value="${bot.type}"></div>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">System Prompt</div><textarea class="form-textarea">You are ${bot.name}, a ${bot.type} for YUVORAI students.</textarea></div>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">Max Concurrent Users</div><input class="form-input" type="number" value="500"></div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="closeModal();showNotif('${bot.name} config saved!','success')"><i class="fa fa-check"></i> Save Config</button>
+    </div>
+  `;
+  openModal();
+}
+
+function showAddBot() {
+  document.getElementById('modal-body').innerHTML = `
+    <h3><i class="fa fa-robot" style="color:var(--cy);margin-right:8px"></i>Deploy New Bot</h3>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">Bot Name</div><input class="form-input" placeholder="e.g. MathHelper Pro"></div>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">Bot Type</div><select class="form-select"><option>General Assistant</option><option>Academic Tutor</option><option>Assessment Engine</option><option>Career Counselor</option><option>Wellness Support</option><option>Programming Tutor</option></select></div>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">System Prompt</div><textarea class="form-textarea" placeholder="You are..."></textarea></div>
+    <div class="form-group" style="margin-bottom:12px"><div class="form-label">AI Model</div><select class="form-select"><option>GPT-4o</option><option>Claude 3.5</option><option>Gemini Pro</option></select></div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="closeModal();showNotif('New bot deployed!','success')"><i class="fa fa-rocket"></i> Deploy Bot</button>
+    </div>
+  `;
+  openModal();
+}
+
+// ═══════════════════════ CONVERSATIONS ═══════════════════════
+function renderConversations() {
+  const tbody = document.getElementById('conv-tbody');
+  tbody.innerHTML = CONVERSATIONS.map(c => `
+    <tr>
+      <td style="font-weight:500">${c.user}</td>
+      <td><span style="font-family:var(--mono);font-size:11px;color:var(--pu)">${c.bot}</span></td>
+      <td style="font-size:12px;color:var(--t2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.last}</td>
+      <td style="font-family:var(--mono);font-size:12px">${c.msgs}</td>
+      <td><span class="badge ${c.status==='active'?'b-active':c.status==='flagged'?'b-inactive':'b-pending'}">${c.status}</span></td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--t2)">${c.time}</td>
+      <td><div class="action-btns">
+        <button class="action-btn" onclick="showNotif('Opening conversation...','info')"><i class="fa fa-eye"></i></button>
+        ${c.status==='flagged'?`<button class="action-btn" onclick="showNotif('Conversation flagged for review!','error')"><i class="fa fa-flag"></i></button>`:''}
+        <button class="action-btn" onclick="showNotif('Conversation resolved!','success')"><i class="fa fa-check"></i></button>
+      </div></td>
+    </tr>
+  `).join('');
+}
+
+// ═══════════════════════ SETTINGS ═══════════════════════
+function switchSettings(id, el) {
+  document.querySelectorAll('.sp').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sn-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('sp-'+id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ═══════════════════════ MODAL ═══════════════════════
+function openModal() { document.getElementById('modal-overlay').classList.add('open'); }
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+document.getElementById('modal-overlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+
+function showConfirm(title, msg, action) {
+  document.getElementById('modal-body').innerHTML = `
+    <h3 style="color:var(--rd)"><i class="fa fa-triangle-exclamation" style="margin-right:8px"></i>${title}</h3>
+    <p style="font-size:13px;color:var(--t2);margin-bottom:0.5rem">${msg}</p>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn danger" onclick="closeModal();handleAction('${action}')"><i class="fa fa-check"></i> Confirm</button>
+    </div>
+  `;
+  openModal();
+}
+
+function handleAction(action) {
+  if(action==='clearConversations') { CONVERSATIONS.length=0; renderConversations(); showNotif('All conversations cleared','error'); }
+  else if(action==='resetBots') showNotif('All bots reset to defaults','info');
+  else if(action==='deletePlatform') showNotif('Action blocked for demo','error');
+  else if(action.startsWith('deleteBot_')) {
+    const id = parseInt(action.split('_')[1]);
+    const idx = BOTS.findIndex(b=>b.id===id);
+    if(idx>-1){BOTS.splice(idx,1);renderBots();showNotif('Bot removed','error');}
+  }
+}
+
+// ═══════════════════════ NOTIFICATIONS ═══════════════════════
+function showNotif(msg, type='info') {
+  const icons = {success:'fa-check-circle',error:'fa-times-circle',info:'fa-circle-info'};
+  const center = document.getElementById('notif-center');
+  const n = document.createElement('div');
+  n.className = `notif ${type}`;
+  n.innerHTML = `<i class="fa ${icons[type]||icons.info} notif-icon"></i><span>${msg}</span>`;
+  center.appendChild(n);
+  setTimeout(()=>{ n.style.opacity='0'; n.style.transition='opacity .3s'; setTimeout(()=>n.remove(),300); }, 3000);
+}
+
+// ═══════════════════════ SIDEBAR MOBILE ═══════════════════════
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+
+// Enter key login
+document.getElementById('login-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+document.getElementById('login-user').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+// ══════════════════════════════════════════════════════════════
+// ─── LIVE API FUNCTIONS ────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+
+async function loadLiveStats() {
+  try {
+    const data = await api('/stats');
+    // Update stat cards
+    const el = (id) => document.getElementById(id);
+    if(el('stat-total-users')) el('stat-total-users').textContent = (data.users?.total || 0).toLocaleString();
+    if(el('stat-premium'))     el('stat-premium').textContent     = (data.users?.premium || 0).toLocaleString();
+    if(el('stat-revenue'))     el('stat-revenue').textContent     = '₹' + (data.revenue?.total || 0).toLocaleString();
+    if(el('stat-pending'))     el('stat-pending').textContent     = (data.payments?.pending || 0);
+    if(el('msg-count'))        el('msg-count').textContent        = (data.users?.total || 0).toLocaleString();
+    // Bot status
+    const bs = await api('/bot-status');
+    showNotif(`Bot: ${bs.bot} | DB: ${bs.database} | RAM: ${bs.memory}MB`, 'info');
+  } catch(e) { console.warn('Stats load failed:', e.message); }
+}
+
+async function loadLiveChartData() {
+  try {
+    const data = await api('/analytics');
+    const labels  = data.days.map(d => d.date);
+    const users   = data.days.map(d => d.users);
+    const revenue = data.days.map(d => d.revenue);
+    // Update main chart if exists
+    if(chartInstances.main) {
+      chartInstances.main.data.labels = labels;
+      chartInstances.main.data.datasets[0].data = users;
+      chartInstances.main.data.datasets[1].data = revenue;
+      chartInstances.main.update();
+    }
+    // Update donut with branch distribution
+    if(chartInstances.donut && data.branches?.length) {
+      chartInstances.donut.data.labels   = data.branches.map(b => b._id);
+      chartInstances.donut.data.datasets[0].data = data.branches.map(b => b.count);
+      chartInstances.donut.update();
+    }
+  } catch(e) { console.warn('Chart data failed:', e.message); }
+}
+
+async function renderUsers() {
+  try {
+    const data  = await api('/users?limit=20');
+    const tbody = document.getElementById('user-tbody');
+    if (!tbody || !data.users) return;
+    tbody.innerHTML = data.users.map(u => {
+      const planColors = {free:'b-pending', trial:'b-active', pro:'b-active', elite:'b-active', advanced:'b-active'};
+      const initial    = (u.firstName || '?')[0].toUpperCase();
+      const planExpiry = u.planExpiry ? new Date(u.planExpiry).toLocaleDateString('en-IN') : '—';
+      return `<tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#7c50ff,#e879f9);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0">${initial}</div>
+            <div>
+              <div style="font-weight:500;font-size:13px">${u.firstName || 'User'}</div>
+              <div style="font-size:11px;color:var(--t2);font-family:var(--mono)">@${u.username || u.telegramId}</div>
+            </div>
+          </div>
+        </td>
+        <td style="font-family:var(--mono);font-size:11px;color:var(--t2)">${u.branch || '—'} ${u.year || ''}</td>
+        <td><span class="badge ${planColors[u.plan] || 'b-pending'}">${u.plan}</span></td>
+        <td style="font-family:var(--mono);font-size:12px">🔥 ${u.streak || 0}d &nbsp; ⚡${u.xp || 0}</td>
+        <td style="font-family:var(--mono);font-size:11px;color:var(--t2)">${new Date(u.createdAt).toLocaleDateString('en-IN')}</td>
+        <td><div class="action-btns">
+          <button class="action-btn" onclick="viewUser('${u.telegramId}')"><i class="fa fa-eye"></i></button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  } catch(e) { console.warn('Users load failed:', e.message); }
+}
+
+async function viewUser(id) {
+  try {
+    const u = await api(`/users/${id}`);
+    document.getElementById('modal-body').innerHTML = `
+      <h3><i class="fa fa-user" style="color:var(--pu);margin-right:8px"></i>${u.firstName}</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;font-size:13px">
+        <div><b style="color:var(--t2)">Telegram ID</b><br>${u.telegramId}</div>
+        <div><b style="color:var(--t2)">Username</b><br>@${u.username || '—'}</div>
+        <div><b style="color:var(--t2)">Branch</b><br>${u.branch || '—'} ${u.year || ''}</div>
+        <div><b style="color:var(--t2)">Goal</b><br>${u.goal || '—'}</div>
+        <div><b style="color:var(--t2)">Plan</b><br>${u.plan}</div>
+        <div><b style="color:var(--t2)">Plan Expiry</b><br>${u.planExpiry ? new Date(u.planExpiry).toLocaleDateString('en-IN') : '—'}</div>
+        <div><b style="color:var(--t2)">XP</b><br>⚡ ${u.xp || 0}</div>
+        <div><b style="color:var(--t2)">Streak</b><br>🔥 ${u.streak || 0} days</div>
+        <div><b style="color:var(--t2)">Identity</b><br>${u.identity || '—'}</div>
+        <div><b style="color:var(--t2)">Referrals</b><br>${u.referralCount || 0}</div>
+        <div><b style="color:var(--t2)">Joined</b><br>${new Date(u.createdAt).toLocaleDateString('en-IN')}</div>
+        <div><b style="color:var(--t2)">Onboarded</b><br>${u.onboardingDone ? '✅ Yes' : '❌ No'}</div>
+      </div>
+      <div class="modal-actions" style="margin-top:16px">
+        <button class="modal-btn" onclick="closeModal()">Close</button>
+      </div>`;
+    openModal();
+  } catch(e) { showNotif('User load failed', 'error'); }
+}
+
+async function loadPendingPayments() {
+  try {
+    const data = await api('/payments?status=pending');
+    const payments = data.payments || [];
+    if (!payments.length) { showNotif('No pending payments!', 'success'); return; }
+    document.getElementById('modal-body').innerHTML = `
+      <h3><i class="fa fa-clock" style="color:var(--am);margin-right:8px"></i>Pending Payments (${payments.length})</h3>
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
+        ${payments.map(p => `
+          <div style="background:var(--bg2);border:1px solid var(--b2);border-radius:10px;padding:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <b>${p.firstName} (${p.telegramId})</b>
+              <span class="badge b-pending">${p.plan} — ₹${p.amount}</span>
+            </div>
+            <div style="font-size:11px;color:var(--t2);font-family:var(--mono);margin-bottom:10px">${new Date(p.createdAt).toLocaleString('en-IN')}</div>
+            <div style="display:flex;gap:8px">
+              <button class="modal-btn primary" onclick="approvePayment('${p._id}')"><i class="fa fa-check"></i> Approve</button>
+              <button class="modal-btn danger" onclick="rejectPayment('${p._id}')"><i class="fa fa-times"></i> Reject</button>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="modal-actions"><button class="modal-btn" onclick="closeModal()">Close</button></div>`;
+    openModal();
+  } catch(e) { showNotif('Payments load failed', 'error'); }
+}
+
+async function approvePayment(id) {
+  try {
+    await api(`/payments/${id}/approve`, { method: 'POST' });
+    showNotif('✅ Payment approved! User notified.', 'success');
+    closeModal(); loadLiveStats();
+  } catch(e) { showNotif('Approval failed: ' + e.message, 'error'); }
+}
+
+async function rejectPayment(id) {
+  try {
+    await api(`/payments/${id}/reject`, { method: 'POST' });
+    showNotif('❌ Payment rejected. User notified.', 'info');
+    closeModal(); loadLiveStats();
+  } catch(e) { showNotif('Rejection failed', 'error'); }
+}
+
+async function sendBroadcast() {
+  const msg = prompt('Broadcast message (Markdown supported):');
+  if (!msg) return;
+  try {
+    showNotif('Broadcasting...', 'info');
+    const res = await api('/broadcast', { method: 'POST', body: JSON.stringify({ message: msg }) });
+    showNotif(`✅ Sent to ${res.sent} users! Failed: ${res.failed}`, 'success');
+  } catch(e) { showNotif('Broadcast failed', 'error'); }
+}
+
+async function fetchFreshOpps() {
+  try {
+    showNotif('Fetching opportunities...', 'info');
+    const res = await api('/opportunities/fetch', { method: 'POST' });
+    showNotif(`✅ ${res.fetched} opportunities fetched!`, 'success');
+  } catch(e) { showNotif('Fetch failed', 'error'); }
+}
+
+// Override renderBots to show real bot status
+async function renderBots() {
+  try {
+    const bs = await api('/bot-status');
+    const container = document.getElementById('bots-container');
+    if (!container) return;
+    container.innerHTML = `
+      <div class="bot-card active-bot" id="bot-card-1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="font-size:24px">🤖</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;font-family:var(--d)">YuvorAI Main Bot</div>
+              <div style="font-size:11px;color:var(--t2)">AI Career OS</div>
+            </div>
+          </div>
+          <span class="badge b-active"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block"></span> ${bs.bot}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+          <div class="bs"><div class="bs-lbl">Database</div><div class="bs-val" style="color:${bs.database==='connected'?'var(--cy)':'var(--rd)'}">${bs.database}</div></div>
+          <div class="bs"><div class="bs-lbl">Cache</div><div class="bs-val">${bs.cache}</div></div>
+          <div class="bs"><div class="bs-lbl">RAM</div><div class="bs-val">${bs.memory}MB</div></div>
+          <div class="bs"><div class="bs-lbl">Uptime</div><div class="bs-val">${Math.floor(bs.uptime/3600)}h ${Math.floor((bs.uptime%3600)/60)}m</div></div>
+          <div class="bs"><div class="bs-lbl">Status</div><div class="bs-val" style="color:var(--cy)">Live</div></div>
+        </div>
+        <div class="bot-actions">
+          <button class="bot-btn primary" onclick="fetchFreshOpps()"><i class="fa fa-rotate"></i> Fetch Opps</button>
+          <button class="bot-btn" onclick="sendBroadcast()"><i class="fa fa-bullhorn"></i> Broadcast</button>
+          <button class="bot-btn primary" onclick="loadPendingPayments()"><i class="fa fa-clock"></i> Payments</button>
+        </div>
+      </div>`;
+  } catch(e) { console.warn('Bot status failed:', e.message); }
+}
+
+// Override renderConversations with real recent users
+async function renderConversations() {
+  try {
+    const data  = await api('/users?limit=10');
+    const tbody = document.getElementById('conv-tbody');
+    if (!tbody || !data.users) return;
+    tbody.innerHTML = data.users.map(u => `
+      <tr>
+        <td style="font-weight:500">${u.firstName || 'User'} (@${u.username || u.telegramId})</td>
+        <td><span style="font-family:var(--mono);font-size:11px;color:var(--pu)">YuvorAI Main</span></td>
+        <td style="font-size:12px;color:var(--t2)">${u.identity || 'confused_beginner'}</td>
+        <td style="font-family:var(--mono);font-size:12px">${u.xp || 0} XP</td>
+        <td><span class="badge ${u.plan==='free'?'b-pending':'b-active'}">${u.plan}</span></td>
+        <td style="font-family:var(--mono);font-size:11px;color:var(--t2)">${new Date(u.createdAt).toLocaleDateString('en-IN')}</td>
+        <td><div class="action-btns">
+          <button class="action-btn" onclick="viewUser('${u.telegramId}')"><i class="fa fa-eye"></i></button>
+        </div></td>
+      </tr>`).join('');
+  } catch(e) { console.warn('Conversations load failed:', e.message); }
+}
+
+</script>
+</body>
+</html>
