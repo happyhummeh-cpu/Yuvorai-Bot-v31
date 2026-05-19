@@ -33,7 +33,7 @@ async function linkedinRoastStart(ctx, user) {
     }
 
     // Set session
-    await cache.set(`linkedin_roast_${user.telegramId}`, JSON.stringify({
+    await cache.set(`linkedin_roast_${user.telegramId}`, {
       status: 'awaiting_photo',
       userType,
       dailyLimit: limitCheck.limit,
@@ -41,7 +41,7 @@ async function linkedinRoastStart(ctx, user) {
       remaining: limitCheck.remaining,
       isPremium: user.plan !== 'Free',
       startedAt: Date.now()
-    }), 3600);
+    }, 3600);
 
     await safeReply(ctx,
       `🔥 *LinkedIn Roast — 35yr HR Style*\n\n35 saal ka experienced HR aaj tera LinkedIn profile dekh ke tera brutal roast dega! 😂\n\n*Rules:*\n• Screenshot ya photo bhej\n• Profile se text extract karunga\n• Honest feedback dega\n\n📸 *Ab photo bhej!*\n\n_Remaining today: ${limitCheck.remaining}/${limitCheck.limit}_`,

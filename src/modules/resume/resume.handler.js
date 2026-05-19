@@ -36,7 +36,7 @@ async function resumeRoastStart(ctx, user) {
     }
 
     // Set session
-    await cache.set(`resume_roast_${user.telegramId}`, JSON.stringify({
+    await cache.set(`resume_roast_${user.telegramId}`, {
       status: 'awaiting_file',
       userType,
       dailyLimit: limitCheck.limit,
@@ -45,7 +45,7 @@ async function resumeRoastStart(ctx, user) {
       isPremium: user.plan !== 'Free',
       fileType: null,
       startedAt: Date.now()
-    }), 3600);
+    }, 3600);
 
     await safeReply(ctx,
       `📝 *Resume Roast — 25yr HR Style*\n\n25 saal ka HR aaj tera resume dekh ke honest feedback dega!\n\n*Supported formats:*\n• PDF files\n• DOC/DOCX files\n• Screenshots/Photos\n\n📄 *Ab file bhej!*\n\n_Remaining today: ${limitCheck.remaining}/${limitCheck.limit}_`,
